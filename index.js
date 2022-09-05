@@ -7,7 +7,8 @@ const authRoute = require("./routes/auth");
 const productRoute = require("./routes/product");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
-const stripeRoute = require("./routes/stripe");
+const adminProduct = require("./routes/admin/Product");
+const adminQaset = require("./routes/admin/Qaset");
 const cors = require("cors");
 
 dotenv.config();
@@ -20,14 +21,44 @@ mongoose
   });
 
 app.use(cors());
+
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
-app.use("/api/checkout", stripeRoute);
 
-app.listen(process.env.PORT || 5000, () => {
+app.use("/api/admin", adminProduct);
+app.use("/api/admin", adminQaset);
+// app.use("api/test",async (req,res)=>{
+//   res.status(200).json({data:[
+//     {
+//       "id": 1,
+//       "name": "Leanne Graham",
+//       "username": "Bret",
+//       "email": "Sincere@april.biz",
+//       "address": {
+//         "street": "Kulas Light",
+//         "suite": "Apt. 556",
+//         "city": "Gwenborough",
+//         "zipcode": "92998-3874",
+//         "geo": {
+//           "lat": "-37.3159",
+//           "lng": "81.1496"
+//         }
+//       },
+//       "phone": "1-770-736-8031 x56442",
+//       "website": "hildegard.org",
+//       "company": {
+//         "name": "Romaguera-Crona",
+//         "catchPhrase": "Multi-layered client-server neural-net",
+//         "bs": "harness real-time e-markets"
+//       }
+//     }]
+//     , total:500,});
+// })
+
+app.listen(process.env.PORT || 8001, () => {
   console.log("Backend server is running!");
 });

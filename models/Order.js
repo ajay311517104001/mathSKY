@@ -3,20 +3,15 @@ const mongoose = require("mongoose");
 const OrderSchema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
-    products: [
-      {
-        productId: {
-          type: String,
-        },
-        quantity: {
-          type: Number,
-          default: 1,
-        },
-      },
-    ],
-    amount: { type: Number, required: true },
-    address: { type: Object, required: true },
-    status: { type: String, default: "pending" },
+    isPaid: { type: Boolean, required: true },
+    amount:{type:Number,required:true},
+    razorpay:{
+      orderId:{ type: String, required:true},
+      paymentId:{ type: String, required:true},
+      signature:{ type: String, required:true}
+    }
+
+
   },
   { timestamps: true }
 );
