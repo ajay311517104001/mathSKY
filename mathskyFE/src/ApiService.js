@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-let baseURL='http://localhost:8001/api/admin/'
+let baseURL='http://localhost:8001/api/'
 
 
-export  const  authApi = (data)=>{
+export  const  authSignUpApi = (data)=>{
   console.log("the datas aer ", data)
-  let url = baseURL + 'login'
+  let url = baseURL + 'auth/register'
   const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
   const options = {method:'POST', data:data};
 return(
@@ -25,6 +25,96 @@ return(
 
 
 }
+
+
+
+export  const  authSignInApi = (data)=>{
+    console.log("the datas aer ", data)
+    let url = baseURL + 'auth/login'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+}
+  
+export  const  getCategoryListApi = ()=>{
+
+
+    let url = baseURL + 'products/getCategoryList'
+
+  return(
+      axios.get(url)
+      .then((res) => {
+         
+
+         return(res.data)
+      })
+      .catch((err)=>{
+
+        return(err)
+      }
+
+    
+      ))
+
+
+}
+
+export  const  getSubjectListApi = (category)=>{
+    let url = baseURL + 'products/getSubject/'+category
+  return(
+      axios.get(url)
+      .then((res) => {
+        return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+}))
+}
+
+export  const  getProductsApi = (data)=>{
+    let url = baseURL + 'products/getProducts'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+  
+
+
+
+
+
+
 
 
 
@@ -347,7 +437,7 @@ return(
 
 }
 
-export  const  getCategoryListApi = ()=>{
+export  const  getCategoryListApii = ()=>{
 
 
     let url = baseURL + 'getCategoryList'
@@ -371,7 +461,7 @@ export  const  getCategoryListApi = ()=>{
 }
 
 
-export  const  getSubjectListApi = (category)=>{
+export  const  getSubjectListApii = (category)=>{
 
 
   let url = baseURL + 'getSubject/'+category

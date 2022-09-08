@@ -12,7 +12,7 @@ import {
 	FeatureImageWrapper,
 	FeatureName,
 	FeatureTextWrapper,
-} from '../Features/FeaturesStyles';
+} from '../Products/FeaturesStyles';
 import { featuresData } from '../../data/FeaturesData';
 import Navbar from '../Navbar/Navbar';
 
@@ -70,7 +70,7 @@ const Mcqtestseries = (props) => {
 
 		console.log("access api called")
 		let userId = JSON.parse(localStorage.getItem("userId"))
-		const data = await axios.post('http://localhost:8000/api/products/mcqtestseriesInfo', { id: userId });
+		const data = await axios.post('http://localhost:8001/api/products/mcqtestseriesInfo', { id: userId });
 		if (data) {
 			console.log("this is the access api data", data.data.mts)
 			setData(data.data)
@@ -81,8 +81,8 @@ const Mcqtestseries = (props) => {
 
 	useEffect(() => {
 		let testmodule = []
-		const token = localStorage.getItem("jwt");
-		console.log("the token is ", token)
+		// const token = localStorage.getItem("jwt");
+		// console.log("the token is ", token)
 
 		for (let i = 1; i < 51; i++) {
 			testmodule.push({
@@ -124,7 +124,7 @@ const Mcqtestseries = (props) => {
 
 				try {
 				
-						const verifyUrl = "http://localhost:8000/api/orders/verify";
+						const verifyUrl = "http://localhost:8001/api/orders/verify";
 						const { data } = await axios.post(verifyUrl, { response, id: userId, amount: amount });
 
 					console.log(data);
@@ -153,7 +153,7 @@ const Mcqtestseries = (props) => {
 			let userId = JSON.parse(localStorage.getItem("userId"))
 			console.log("the user id is", userId)
 			if(userId){
-			const orderUrl = "http://localhost:8000/api/orders/createOrder";
+			const orderUrl = "http://localhost:8001/api/orders/createOrder";
 			const { data } = await axios.post(orderUrl, { amount: '200' });
 			console.log(data);
 			initPayment(data.data, userId);

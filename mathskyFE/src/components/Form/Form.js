@@ -20,6 +20,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 
 
 import "./Form.css";
+import { authSignInApi, authSignUpApi } from '../../ApiService';
 
 const SignUpForm = () => {
 	let history = useHistory();
@@ -41,25 +42,40 @@ const SignUpForm = () => {
 			return;
 		}else{
 			console.log("im fired")
-         let clientData ={
-			username:name,
-			email:email,
-			password:password
-		}
-		await axios({
-			method: 'post',
-			url: 'http://localhost:8001/api/auth/register',
-			data: clientData,
-		  }).then((res)=>{
-			  console.log("the siginup res", res)
-			setSuccess('Application was submitted!');
-			console.log("the response is ", res.data)
-			localStorage.setItem('accessToken',  JSON.stringify(res.data.accessToken))
-			localStorage.setItem('username',JSON.stringify(res.data.username))
-			localStorage.setItem('userId',JSON.stringify(res.data.userId))
+			let clientData ={
+			   username:name,
+			   email:email,
+			   password:password
+		   }
+
+			authSignUpApi(clientData)
+			.then((res)=>{
+				console.log("the signUp res ", res)
+			localStorage.setItem('accessToken',  JSON.stringify(res.accessToken))
+			localStorage.setItem('username',JSON.stringify(res.username))
+			localStorage.setItem('userId',JSON.stringify(res.userId))
 			
 			history.push('/');
-		})
+			})
+
+
+
+
+	
+		// await axios({
+		// 	method: 'post',
+		// 	url: 'http://localhost:8001/api/auth/register',
+		// 	data: clientData,
+		//   }).then((res)=>{
+		// 	  console.log("the siginup res", res)
+		// 	setSuccess('Application was submitted!');
+		// 	console.log("the response is ", res.data)
+		// 	localStorage.setItem('accessToken',  JSON.stringify(res.data.accessToken))
+		// 	localStorage.setItem('username',JSON.stringify(res.data.username))
+		// 	localStorage.setItem('userId',JSON.stringify(res.data.userId))
+			
+		// 	history.push('/');
+		// })
 	
 		  .catch((err)=>{
 			  
@@ -168,21 +184,17 @@ const SignInForm = () => {
 			email:email,
 			password:password
 		}
-		await axios({
-			method: 'post',
-			url: 'http://localhost:8001/api/auth/login',
-			data: clientData,
-		  }).then((res)=>{
-			  
-			setSuccess('Application was submitted!');
-			console.log("the response is ", res.data)
-			localStorage.setItem('accessToken',  JSON.stringify(res.data.accessToken))
-			localStorage.setItem('username',JSON.stringify(res.data.username))
-			localStorage.setItem('userId',JSON.stringify(res.data.userId))
-			
-			history.push('/');
+
+		authSignInApi(clientData)
+		.then((res)=>{
+			console.log("the signUp res ", res)
+		localStorage.setItem('accessToken',  JSON.stringify(res.accessToken))
+		localStorage.setItem('username',JSON.stringify(res.username))
+		localStorage.setItem('userId',JSON.stringify(res.userId))
+		
+		history.push('/');
 		})
-	
+
 		  .catch((err)=>{
 			  
 			setSuccess('Invalid credentials');

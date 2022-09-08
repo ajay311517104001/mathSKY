@@ -1,48 +1,14 @@
 const router = require("express").Router();
 
+
 const QAset = require("../../models/Admin/Qaset");
 const addMCQ =require("../../models/Admin/addMcq")
-const {v4 : uuidv4} = require('uuid')
-
-// router.post("/addProduct", async (req, res) => {
-//      console.log("the body is ",req.body)
-
-//      let  {subject, totalChapters, std,price}=req.body
-//       if (req.body) {
-
-//         let chapters_array=[]
-//         for(let i =0; i<totalChapters;i++){
-//              chapters_array.push({
-//                chapterNo: "Chapter "+ Number(i+1),
-//                mcqList:[]
-//              })
-//         }
-//        // let chapters_array=new Array(totalChapters).fill([]);
-//         const newProduct = new Product({
-//           std: std,
-//           subject: subject,
-//           totalChapters:totalChapters,
-//           price:price,
-//           chapters:chapters_array
-//         });
-//         console.log("the new product is ", newProduct)
-//         await newProduct.save();
-//         res.status(500).json("success");
-//       } else {
-//         res.status(200).json("failure");
-//       }}
-    
-//   )
+const {v4 : uuidv4} = require('uuid');
 
 
 
-// router.get("/getProduct", async(req, res) => {
 
-//   const modules = await Product.find();
-//        res.status(200).json(modules);
-// }
-
-// );
+// ---------------------- QA SET CRUD -----------------------------------
 
 router.post("/addQAset", async (req, res) => {
      console.log("the body is ",req.body)
@@ -86,29 +52,29 @@ router.get("/getQAset", async(req, res) => {
   
   );
 
-  router.post("/updateProduct", async (req, res) => {
-    console.log("the body is ",req.body)
+  router.post("/updateQAset", async (req, res) => {
+    console.log("the updateQAset Body ",req.body)
 
-    let  {category, productName, Subject,totalModules,standardText,price,id}=req.body
+    let  {category, Subject,StdName,id}=req.body.data
      if (req.body) {
 
-      const _Product = await Product.findOne(
+      const _QAset = await QAset.findOne(
         {
             _id: id
         }
     );
     try{
-      if(_Product){
+      if(_QAset){
        
-        _Product.category= category
-        _Product.productName=productName
-        _Product.Subject=Subject
-        _Product.price=price
-        _Product.StdName=standardText
-        _Product.totalTestModules=totalModules
+        _QAset.category= category
+        _QAset.Subject=Subject
+        _QAset.StdName=StdName
+
         
-        await _Product.save();
+        await _QAset.save();
         res.status(200).json({"message":"success"});
+      }else{
+        res.status(500).json("QAset updation error");
       }
     }catch(err){
       console.log("product update err",err)
@@ -119,16 +85,18 @@ router.get("/getQAset", async(req, res) => {
     
      } else {
        res.status(500).json("failure");
-     }}
+     }
+    
+    }
    
  )
 
- router.delete("/deleteProduct/:_id",async(req,res)=>{
+ router.delete("/deleteQAset/:_id",async(req,res)=>{
   console.log("the body is ",req.params._id)
   const {_id}=req.params
   try{
     if(_id){
-     await Product.deleteOne(
+     await QAset.deleteOne(
         {
             _id: _id
         }
@@ -139,11 +107,69 @@ router.get("/getQAset", async(req, res) => {
   
     }
   }catch(err){
-    console.log("err in admin product delete api")
+    console.log("err in admin QAset delete api")
   }
   res.status(200).json({"message":"success"});
 
  })
+
+
+ router.get("/getCategoryList", async(req, res) => {
+  // console.log(" the params are", req.body)
+  // const {id,chapterNo} =req.body.data
+  try{
+      const QAsets = await QAset.find({ } , {"category":1});
+      //res.status(200).json(QAsets);
+      if(QAsets){
+          let tempArr =[]
+          QAsets.forEach(element => {
+              if(element.category){
+                   tempArr.push(element.category)
+                  
+           } })
+
+           uniq = [...new Set(tempArr)];
+        res.status(200).json(uniq);
+      }else{
+        res.status(500).json(" err in geting the all mcq datae");
+      }
+  }catch(err){
+      res.status(500).json(" err in geting the all mcq datae");
+  }
+ 
+  
+
+}
+
+);
+
+router.get("/getSubject/:_category",async(req,res)=>{
+  console.log("the body is ",req.params._category)
+  const {_category}=req.params
+  try{
+    if(_category){
+   const sub = await  QAset.find({category: _category} , {"Subject":1});
+
+
+    if(sub){
+
+      let tempArr =[]
+      sub.forEach(element => {
+          if(element.Subject){
+               tempArr.push(element.Subject)
+              
+       } })
+
+    res.status(200).json(tempArr);
+      }
+
+    }
+  }catch(err){
+    console.log("err in admin product delete api")
+  }
+
+ })
+// ---------------------- MCQ CRUD -----------------------------------
 
 
 

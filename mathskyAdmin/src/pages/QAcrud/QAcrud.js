@@ -4,7 +4,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useEffect, useState } from "react";
-import {addQasetApi} from '../../ApiService'
+import {addQasetApi, updateQAsetApi} from '../../ApiService'
 
 import { useNavigate } from "react-router-dom";
 
@@ -17,33 +17,59 @@ const QAcrud = () => {
 
   const [subject,setSubject] = useState('')
   const [totalChapters,setTotalChapters] = useState('')
-  const [standard,setStandard] = useState('')
+  const [category,setCategory] = useState('')
   const [standardText,setStandardText]=useState('')
 
 
   useEffect(()=>{
-    if(location.state){
 
-      setSubject(location.state.subject)
-      setTotalChapters(location.state.totalChapters)
-      setStandard(location.state.std)
-      
-    }
+
+    if(localStorage.getItem("Token")){
+      if(location.state){
+        console.log("the location state are ", location.state)
+        setStandardText(location.state.StdName)
+        setSubject(location.state.Subject)
+        setTotalChapters(location.state.totalChapters)
+        setCategory(location.state.category)
+        
+      }
+     }else{
+       history('/')
+     }
+ 
  
 
   },[])
 
-  const fun = ()=>{
+  const onUpdate = ()=>{
 
-    console.log("the subject is ", subject)
-    console.log("the totalChapters is ", totalChapters)
-    console.log("the standard is ", standard)
+
+    if(subject  && category  && standardText){
+  console.log("the subject is ", subject)
+    console.log("the standardtext is ", standardText)
+   console.log("the standard is ", category)
+   const data ={
+    id:location.state._id,
+    category:category,
+    Subject:subject,
+    StdName: standardText
+   }
+
+   updateQAsetApi(data)
+   .then((res)=>{
+     console.log("the res for update qaset api is",res)
+     history('/QAset')
+   })
+      
+    }
+
+  
   }
 
   const onSave = ()=>{
-    if(subject &&  totalChapters && standard  && standardText){
+    if(subject &&  totalChapters && category  && standardText){
       let data ={
-        category:  standard,
+        category:  category,
      Subject:subject,
 
     totalChapters: totalChapters,
@@ -53,7 +79,7 @@ const QAcrud = () => {
       addQasetApi(data)
       .then((res)=>{
         console.log("the res is ",res)
-        history("/QAset/QAkeyin");
+        history("/QAset");
        // setData(res)
       })
 
@@ -83,8 +109,8 @@ const QAcrud = () => {
 
                 <div className="formInput" >
                   <label> Category (Roman number)</label>
-                  <input type='text' value={standard}  onChange={(e)=>{
-                    setStandard(e.target.value)
+                  <input type='text' value={category}  onChange={(e)=>{
+                    setCategory(e.target.value)
 
                   } } />
                   </div>
@@ -95,19 +121,19 @@ const QAcrud = () => {
 
                   } }/>
                   </div>
-                  <div className="formInput"  >
+                  {/* <div className="formInput"  >
                   <label> Total Chapters</label>
                   <input type='number' value={totalChapters} onChange={(e)=>{
                     setTotalChapters(e.target.value)
 
                   } }/>
-                  </div>
+                  </div> */}
             
 
                 <div className="formInput" >
                   <label> standard </label>
                   <input type='text' value={standardText}  onChange={(e)=>{
-                    setStandard(e.target.value)
+                    setStandardText(e.target.value)
 
                   } } />
                   </div>
@@ -117,7 +143,7 @@ const QAcrud = () => {
             </form>
             <br/>
             <br/>
-          <center> <button style={{   paddingInline:30 , paddingTop:10,paddingBottom:10}} onClick={fun}>Send</button></center> 
+          <center> <button style={{   paddingInline:30 , paddingTop:10,paddingBottom:10}} onClick={onUpdate}>update</button></center> 
           </div>
           </div>
         </div>
@@ -151,7 +177,7 @@ const QAcrud = () => {
             <div className="formInput" >
                   <label> Category (Roman number)</label>
                   <input type='text'   onChange={(e)=>{
-                    setStandard(e.target.value)
+                    setCategory(e.target.value)
 
                   } } />
                   </div>

@@ -30,35 +30,11 @@ function Pricing(props) {
 
 	}, [])
 	return (
-		// 		<IconContext.Provider value={{ color: '#a9b3c1', size: '1rem' }}>
-		// 			<PricingSection id="pricing">
-		// 				<PricingWrapper>
-		// 					<Heading>Ready to take the Sample test?</Heading>
-		// 					<Heading style={{marginTop:'2%'}}>MATHS </Heading>
-		// 					<div
-
-		// 				    style={{color:'white', marginTop:'4%'}}
-		// 					>
-		// 						This test module contains 15 MCQ questions from 10th Samacheer Kalvi syllabus 
-		// 					</div>
-
-		// 				<ButtonWrapper>
-
-
-
-
-		// <Button style={{color:'white', marginTop:'10%'}} >START</Button>
-		// </ButtonWrapper>
-
-
-
-		// 				</PricingWrapper>
-		// 			</PricingSection>
-		// 		</IconContext.Provider>
 		<HeroSection>
 			<HeroVideo />
 			<Container>
-				{type == '' ? <MainHeading>Ready to take the Sample test?</MainHeading> : <MainHeading>Ready to take the Test Module {type} ?</MainHeading>}
+				{type == '' ?
+				 <MainHeading>Ready to take the Sample test?</MainHeading> : <MainHeading>Ready to take the Test Module {type} ?</MainHeading>}
 				<HeroText>
 					This test module contains 14 MCQ questions from 10th Samacheer Kalvi syllabus
 				</HeroText>

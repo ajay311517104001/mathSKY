@@ -79,7 +79,7 @@ router.get("/getProduct", async(req, res) => {
   );
 
   router.post("/updateProduct", async (req, res) => {
-    console.log("the body is ",req.body)
+    console.log("the body issss ",req.body)
 
     let  {category, productName, Subject,totalModules,standardText,price,id}=req.body
      if (req.body) {
@@ -101,6 +101,8 @@ router.get("/getProduct", async(req, res) => {
         
         await _Product.save();
         res.status(200).json({"message":"success"});
+      }else{
+        res.status(500).json("Product updation error");
       }
     }catch(err){
       console.log("product update err",err)

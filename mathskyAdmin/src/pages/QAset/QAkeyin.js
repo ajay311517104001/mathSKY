@@ -157,25 +157,22 @@ const [data,setData]=useState({})
 
 
 useEffect(()=>{
-    // 
-  // const arr =[]
-  // for(let i=0; i<15 ; i++){
-  //   arr.push({
-  //     'subject':'Maths',
-  //     'price':'200',
-  //     'count':i+1
-  //   })
-  // }
+  if(localStorage.getItem("Token")){
+    if(location.state._id){
+      ModulesApi(location.state._id)
+      console.log("the chapter datas are", location.state)
+  }
+  
+  if(location.state.flag=="addnew"){
+      getChapterNo(location.state.chapterName)
+  }
+   }else{
+     history('/')
+   }
 
-//    setQAdata(location.state)
-if(location.state._id){
-    ModulesApi(location.state._id)
-    console.log("the chapter datas are", location.state)
-}
 
-if(location.state.flag=="addnew"){
-    getChapterNo(location.state.chapterName)
-}
+
+
 
 
 },[])

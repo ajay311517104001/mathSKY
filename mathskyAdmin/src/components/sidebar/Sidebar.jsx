@@ -14,9 +14,11 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { useNavigate ,useLocation } from "react-router-dom";
 
 
 const Sidebar = (props) => {
+  let history =useNavigate()
   const { dispatch } = useContext(DarkModeContext);
   if(props.flag){
     console.log("the chapters are----",props.QAdata.chapters)
@@ -73,15 +75,15 @@ const Sidebar = (props) => {
     return (
       <div className="sidebar">
         <div className="top">
-          <Link to="/" style={{ textDecoration: "none" }}>
+        
             <span className="logo">MathSKY</span>
-          </Link>
+         
         </div>
         <hr />
         <div className="center">
           <ul>
             <p className="title">MAIN</p>
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <Link to="/dashboard" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
@@ -116,7 +118,10 @@ const Sidebar = (props) => {
     
             <p className="title">USER</p>
          
-            <li>
+            <li onClick={()=>{
+              localStorage.clear()
+              history('/')
+            }}>
               <ExitToAppIcon className="icon" />
               <span>Logout</span>
             </li>

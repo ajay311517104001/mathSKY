@@ -5,9 +5,27 @@ import Widget from "../../components/widget/Widget";
 import Featured from "../../components/featured/Featured";
 import Chart from "../../components/chart/Chart";
 import Table from "../../components/table/Table";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  let history = useNavigate();
+
+  const [token,setToken]=useState(false)
+
+useEffect(()=>{
+
+ if(localStorage.getItem("Token")){
+  setToken(true)
+ }else{
+   history('/')
+ }
+
+},[])
+
   return (
+   
+     
     <div className="home">
       <Sidebar />
       <div className="homeContainer">

@@ -1,7 +1,7 @@
 import React,{ useRef }  from 'react';
 import Carousel from '../components/Carousel/Carousel';
 import { Content } from '../components/Content/Content';
-import Features from '../components/Features/Features';
+import Products from '../components/Products/Products';
 import Hero from '../components/Hero/Hero';
 import { heroOne, heroTwo, heroThree } from '../data/HeroData';
 import Navbar from '../components/Navbar/Navbar';
@@ -16,7 +16,7 @@ const Home = () => {
 		<>
 		<Navbar />
 			<Hero executeScroll={executeScroll}/>
-			<Features myRef={myRef}/>
+			<Products myRef={myRef}/>
 			{/* <Content {...heroOne} /> */}
 			<Content {...heroTwo} />
 			{/* <Content {...heroThree} /> */}

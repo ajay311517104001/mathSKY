@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GlobalStyle from './globalStyles';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route ,Redirect } from 'react-router-dom';
 
 //Pages
 import Home from './pages/Home';
@@ -12,26 +12,64 @@ import SampleTest from './components/Pricing/SampleTest';
 import Mcqtestseries from './components/Mcqtestseries/Mcqtestseries';
 import Mcqtestpro from './components/Content/Mcqtestpro/Mcqtestpro';
 import Navbar from './components/Navbar/Navbar';
+import { useHistory } from "react-router-dom";
 
+
+
+const ProtectedRoute =(props)=> {
+
+
+	const {  path , component } = props
+
+	 if(localStorage.getItem("accessToken")){
+		return (
+			
+			<Route path={path} exact component={component} />
+		  )
+	 }else{
+		 return(
+			<Redirect to='/' />
+		 )
+	 } 
+
+  }
+
+const UnProtectedRoute =(props)=> {
+	let history = useHistory();
+
+	const {  path , component } = props
+
+	 if(localStorage.getItem("accessToken")){
+		history.goBack()
+
+	 }else{
+		 return(
+			<Route path={path} exact component={component} />
+		 )
+	 } 
+
+  }
 
 function App() {
+
+	
+
+	const NotFoundRedirect = () => <Redirect to='/' />
 	return (
 		<Router>
 			<GlobalStyle />
+				   <Switch>
+				   <Route path="/" exact component={Home} />
+				   <UnProtectedRoute path="/signup" exact component={SignUp} />
+				   <UnProtectedRoute path="/signin" exact component={SignIn} />
 	
-			<Switch>
-				<Route path="/" exact component={Home} />
-				<Route path="/signup" exact component={SignUp} />
-				<Route path="/signin" exact component={SignIn} />
-				<Route path="/sampletest" exact component={Pricing} />
-				<Route path="/sampletest_" exact component={SampleTest} />
-				<Route path="/mcqtestseries" exact component={Mcqtestseries} />
-				<Route path="/mcqtestpro" exact component={Mcqtestpro} />
-				<Route path="/McqTestseriesModule" exact  component={Pricing}  />
-
-
-			</Switch>
-			{/* <Footer /> */}
+					<ProtectedRoute path="/sampletest"  component={Pricing} />
+					<ProtectedRoute path={"/sampletest_"}   component={SampleTest} />
+					<ProtectedRoute path={"/mcqtestseries"}  component={Mcqtestseries} />
+					<ProtectedRoute path={"/mcqtestpro"}   component={Mcqtestpro} />
+					<ProtectedRoute path={"/McqTestseriesModule"}  component={Pricing}  />
+				  	<Route path='*' component={NotFoundRedirect} />
+			 </Switch>
 		</Router>
 	);
 }

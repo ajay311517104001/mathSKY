@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
+const authAdmin = require("./routes/admin/auth");
 const productRoute = require("./routes/product");
 const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
@@ -29,8 +30,11 @@ app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
 
+
+app.use("/api/admin", authAdmin);
 app.use("/api/admin", adminProduct);
 app.use("/api/admin", adminQaset);
+
 // app.use("api/test",async (req,res)=>{
 //   res.status(200).json({data:[
 //     {

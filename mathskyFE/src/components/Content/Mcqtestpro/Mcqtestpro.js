@@ -10,7 +10,7 @@ import {
 	FeatureImageWrapper,
 	FeatureName,
 	FeatureTextWrapper,
-} from '../../Features/FeaturesStyles';
+} from '../../Products/FeaturesStyles';
 
 
 
@@ -58,8 +58,8 @@ const Mcqtestpro = (props) => {
     const [testmodules,setTestModules]=useState([])
 	useEffect(() => {
         let testmodule=[]
-		const token = localStorage.getItem("jwt");
-		console.log("the token is ", token)
+		// const token = localStorage.getItem("jwt");
+		// console.log("the token is ", token)
 
         for (let i = 1; i < 101; i++) {
            testmodule.push({

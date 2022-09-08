@@ -21,6 +21,7 @@ import { Button } from "@mui/material";
 
 
 const QAadd= () => {
+
   let history = useNavigate();
   const location = useLocation();
   const [file, setFile] = useState("");
@@ -36,15 +37,21 @@ const QAadd= () => {
 
   useEffect(()=>{
       console.log("the state---", location.state)
-    if(location.state.item){
 
-        setQues(location.state.data.ques)
-        setUans(location.state.data.ans)
-      setOptions(location.state.data.options)
+      if(localStorage.getItem("Token")){
+        if(location.state.item){
 
-    
+          setQues(location.state.data.ques)
+          setUans(location.state.data.ans)
+        setOptions(location.state.data.options)
+  
       
-    }
+        
+      }
+       }else{
+         history('/')
+       }
+   
  
 
   },[])

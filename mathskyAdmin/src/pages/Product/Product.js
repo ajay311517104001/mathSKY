@@ -26,7 +26,13 @@ useEffect(()=>{
   //   })
   // }
   // setData(arr)
-  ModulesApi()
+  if(localStorage.getItem("Token")){
+   
+    ModulesApi()
+   }else{
+     history('/')
+   }
+
 
 },[])
 
@@ -64,7 +70,7 @@ const DeleteProduct = (id)=>{
           </div>
 
         </div>
-        <div style={{  height: '100%', width: '100%', display: 'flex', flexWrap: 'wrap' , justifyContent:'start', }}>
+        <div style={{   width: '100%', display: 'flex', flexWrap: 'wrap' , justifyContent:'start', }}>
           { datas.map((data,index)=>{
               return (
                 <div style={{   boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', height: '250px', width: '28%', overflow:'scroll',marginTop: '2%', marginLeft: '2%',borderRadius:10 , display:'flex', justifyContent:'center',alignItems:'center',position:'relative'}} key={index} >
