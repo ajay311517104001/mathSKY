@@ -7,16 +7,16 @@ export const data = [
 
 	{
 		to:'/signup',
-		text:'SignUp',
+		text:'Log In',
 		id:'signup'
 
 	},
-	{
-		to:'/signin',
-		text:'SignIn',
-		id:'signin'
+	// {
+	// 	to:'/signin',
+	// 	text:'SignIn',
+	// 	id:'signin'
 
-	}
+	// }
 
 
 ];

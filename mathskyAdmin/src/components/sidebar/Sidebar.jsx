@@ -15,10 +15,30 @@ import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { useNavigate ,useLocation } from "react-router-dom";
+import { Button ,  Select, MenuItem ,FormControl} from "@mui/material";
+import React ,{useState}from 'react';
+
 
 
 const Sidebar = (props) => {
   let history =useNavigate()
+  const [selected, setSelected] = useState('');
+
+
+  function handleChange(event) {
+    setSelected(event.target.value);
+    // getSubjectListApi(event.target.value)
+    // .then((res)=>{
+    //   console.log("the subject res is",res)
+    //   let arr = []
+    //   res.forEach(element => {
+    //       arr.push(element)
+    //   });
+    //   console.log("the category list res is",  arr)
+    //   setSubjectarr(arr)
+    // }
+    // )
+  }
   const { dispatch } = useContext(DarkModeContext);
   if(props.flag){
     console.log("the chapters are----",props.QAdata.chapters)
@@ -42,6 +62,8 @@ const Sidebar = (props) => {
             <li  >
             <CreditCardIcon className="icon" />
           <span  className="titlee">{item.chapterNo}</span>
+          <span  className="titlee">W:{item.weightage}</span>
+        
         </li>
 
          </div>

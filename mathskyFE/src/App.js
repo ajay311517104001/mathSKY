@@ -3,6 +3,7 @@ import GlobalStyle from './globalStyles';
 import { BrowserRouter as Router, Switch, Route ,Redirect } from 'react-router-dom';
 
 //Pages
+import max from './customhook/max'
 import Home from './pages/Home';
 import SignUp from './pages/SignupPage';
 import SignIn from './pages/SigninPage';
@@ -13,6 +14,7 @@ import Mcqtestseries from './components/Mcqtestseries/Mcqtestseries';
 import Mcqtestpro from './components/Content/Mcqtestpro/Mcqtestpro';
 import Navbar from './components/Navbar/Navbar';
 import { useHistory } from "react-router-dom";
+import Results from './pages/Results';
 
 
 
@@ -51,7 +53,13 @@ const UnProtectedRoute =(props)=> {
   }
 
 function App() {
+ 
+//    const [dynamicPath,setDynamicPath]=useState('')
 
+// 	const onDynamicPath =(path)=>{
+// 		console.log("the path is",path)
+//        setDynamicPath(path)
+// 	}
 	
 
 	const NotFoundRedirect = () => <Redirect to='/' />
@@ -59,15 +67,17 @@ function App() {
 		<Router>
 			<GlobalStyle />
 				   <Switch>
-				   <Route path="/" exact component={Home} />
+				   <Route path="/" exact  component={Home} />
+				   {/* <Route path="/max" exact  component={max} /> */}
 				   <UnProtectedRoute path="/signup" exact component={SignUp} />
 				   <UnProtectedRoute path="/signin" exact component={SignIn} />
 	
 					<ProtectedRoute path="/sampletest"  component={Pricing} />
-					<ProtectedRoute path={"/sampletest_"}   component={SampleTest} />
-					<ProtectedRoute path={"/mcqtestseries"}  component={Mcqtestseries} />
+					<ProtectedRoute path={"/Test"}   component={SampleTest} />
+					<ProtectedRoute path={"/testModules/:id"}  component={Mcqtestseries} />
 					<ProtectedRoute path={"/mcqtestpro"}   component={Mcqtestpro} />
 					<ProtectedRoute path={"/McqTestseriesModule"}  component={Pricing}  />
+					<ProtectedRoute path={"/Results"}  component={Results}  />
 				  	<Route path='*' component={NotFoundRedirect} />
 			 </Switch>
 		</Router>

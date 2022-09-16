@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const Product = require("../../models/Admin/Product");
+const Qaset = require("../../models/Admin/Qaset");
 
 // router.post("/addProduct", async (req, res) => {
 //      console.log("the body is ",req.body)
@@ -47,9 +48,19 @@ router.post("/addProduct", async (req, res) => {
 
      let  {category, productName, Subject,totalModules,standardText,price}=req.body
       if (req.body) {
+
+        const QAsets = await Qaset.findOne(
+          {
+            category: category,
+            Subject:Subject,
+          }
+      );
+      console.log("the QAset id for thre product is",QAsets)
+      if(QAsets){
         const newProduct = new Product({
           category: category,
           productName: productName,
+          QAsetId:QAsets._id,
           Subject:Subject,
           price:price,
           StdName:standardText,
@@ -57,7 +68,11 @@ router.post("/addProduct", async (req, res) => {
         });
         console.log("the new product is ", newProduct)
         await newProduct.save();
-        res.status(200).json("success");
+        res.status(200).json("success")
+      }else{
+        res.status(500).json("failure");
+      }
+     ;
       } else {
         res.status(500).json("failure");
       }}

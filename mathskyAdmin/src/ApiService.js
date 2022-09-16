@@ -252,6 +252,28 @@ return(
 
 }
 
+export  const  updateChapterWeightageApi = async (data)=>{
+
+  let url = baseURL + 'updateChapterWeightage'
+  const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+  const options = {method:'POST', data:data};
+return(
+   await axios.post(url,options)
+    .then((res) => {
+       
+
+       return(res.data)
+    })
+    .catch((err)=>{
+
+      return(err)
+    }
+
+  
+    ))
+
+
+}
 export  const  getAllMcqApi = async (data)=>{
 
   let url = baseURL + 'getAllChapters'

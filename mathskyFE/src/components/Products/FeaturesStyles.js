@@ -15,6 +15,24 @@ export const FeatureTextWrapper = styled.div`
 	margin-bottom: 4rem;
 `;
 
+
+export const ResultWrapper = styled.div`
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	margin-top: 3rem;
+	grid-gap: 2rem;
+
+	@media screen and (max-width: 1100px) {
+		grid-template-columns: repeat(1, 1fr);
+		grid-row-gap: 3rem;
+	}
+
+	@media screen and (max-width: 568px) {
+		grid-template-columns: repeat(1, 1fr);
+
+	}
+`;
+
 export const FeatureWrapper = styled.div`
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -36,6 +54,17 @@ export const FeatureColumn = styled(motion.div)`
 	flex-flow: column;
 	justify-content: center;
 	align-items: center;
+	background: #f3f3f3;
+	padding: 50px;
+	box-shadow: 0 0 32px 8px #d0d0d0;
+	border-radius: 20px;
+`;
+
+export const MCQQuestionDiv = styled(motion.div)`
+	display: flex;
+	flex-flow: column;
+
+
 	background: #f3f3f3;
 	padding: 50px;
 	box-shadow: 0 0 32px 8px #d0d0d0;

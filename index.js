@@ -10,6 +10,7 @@ const cartRoute = require("./routes/cart");
 const orderRoute = require("./routes/order");
 const adminProduct = require("./routes/admin/Product");
 const adminQaset = require("./routes/admin/Qaset");
+const mcqList =require("./routes/McqList")
 const cors = require("cors");
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/mcqList", mcqList);
 
 
 app.use("/api/admin", authAdmin);

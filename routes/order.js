@@ -59,8 +59,9 @@ router.post("/createOrder",  async (req, res) => {
 router.post("/verify", async (req, res) => {
 	try {
     console.log("the verify is", req.body)
-		const { razorpay_order_id, razorpay_payment_id, razorpay_signature  } =
-			req.body.response;
+	    const {totalTestModules,productId}=req.body
+		const { razorpay_order_id, razorpay_payment_id, razorpay_signature  } =req.body.response;
+			console.log("the response is ",totalTestModules,productId)
 		const sign = razorpay_order_id + "|" + razorpay_payment_id;
 		const expectedSign = crypto
 			.createHmac("sha256", process.env.KEY_SECRET)
@@ -71,6 +72,10 @@ router.post("/verify", async (req, res) => {
       const newOrder = Order({
         userId:req.body.id,
         isPaid: true,
+		//add product id
+		//add test modules count
+		totalTestModules:totalTestModules,
+		productId:productId,
         amount: req.body.amount,
         razorpay: {
           orderId: razorpay_order_id,
@@ -80,7 +85,7 @@ router.post("/verify", async (req, res) => {
       });
 
       await newOrder.save();
-
+	  console.log("the user after sub", newOrder)
       const user = await User.findOne(
         {
             _id: mongoose.Types.ObjectId(req.body.id)
@@ -88,8 +93,38 @@ router.post("/verify", async (req, res) => {
       
     );
     if(user){
-     user.subscription.mts=true
-     user.save()
+	//update the default test list according to the test modules count
+	//return the user object (list of product id, list of test)
+
+
+	// [{
+	// 	productID:'productID',
+	// 	TestModulesList:[
+	// 	{	M1:false,
+	// 		M2:false,....
+		
+	// 	}
+	// 	]
+	// }]
+	let subscriptionList =[]
+	for(let i=1;i<totalTestModules+1;i++){
+		subscriptionList.push({
+			moduleId:'M'+i,
+			value:false,
+			score:-1,
+			timeOfCompletion:-1
+		})
+		}
+		// if the subcription list length > 0 just push the data into array 
+		//else create a new array and push just like below code
+		if(user.subscription.length>0){
+			user.subscription.push({productId:productId,subscriptionList:subscriptionList})
+			user.save()
+		}else{
+			user.subscription={productId:productId,subscriptionList:subscriptionList}
+			user.save()
+		}
+ 
      console.log("the user after sub", user)
       }
 			return res.status(200).json({ message: "Payment verified successfully" });

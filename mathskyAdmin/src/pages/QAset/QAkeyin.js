@@ -3,12 +3,12 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import { Link } from "react-router-dom";
-import { deleteMcqApi, getAllMcqApi, getMcqListApi, getProductApi, getQasetApi} from '../../ApiService'
+import { deleteMcqApi, getAllMcqApi, getMcqListApi, getProductApi, getQasetApi, updateChapterWeightageApi} from '../../ApiService'
 import { useNavigate ,useLocation } from "react-router-dom";
 import List from "../../components/table/Table";
 import { useEffect, useState } from "react";
 
-import { Button } from "@mui/material";
+import { Button ,  Select, MenuItem ,FormControl} from "@mui/material";
 
 
 
@@ -154,7 +154,8 @@ const [QAdata,setQAdata]=useState([])
 const [chapterList,setChapterList]=useState([])
 const [chapterName,setChapterName]=useState('')
 const [data,setData]=useState({})
-
+const [selected, setSelected] = useState('');
+const [weightage,setWeightage]=useState('')
 
 useEffect(()=>{
   if(localStorage.getItem("Token")){
@@ -198,11 +199,39 @@ const getChapterNo =(chapterNo)=>{
   getMcqListApi(data)
   .then((res)=>{
     console.log("the mcqlist is ",res)
+    setWeightage(res.weightage)
         setChapterList(res.mcqList)
    setChapterName(res.chapterNo)
   })
 
 
+}
+
+function handleChange(event) {
+  setSelected(event.target.value);
+  const data={
+    id:location.state._id,
+    chapterNo:chapterName,
+    weightage:event.target.value
+
+  }
+  updateChapterWeightageApi(data)
+  .then((res)=>{
+    console.log("the weightage response is ",res)
+    ModulesApi(location.state._id)
+    getChapterNo(chapterName)
+  })
+  // getSubjectListApi(event.target.value)
+  // .then((res)=>{
+  //   console.log("the subject res is",res)
+  //   let arr = []
+  //   res.forEach(element => {
+  //       arr.push(element)
+  //   });
+  //   console.log("the category list res is",  arr)
+  //   setSubjectarr(arr)
+  // }
+  // )
 }
 
   return (
@@ -212,14 +241,40 @@ const getChapterNo =(chapterNo)=>{
 
         <div className="top">
 
-          <div className="left" style={{display:'flex', justifyContent:'space-between'}}>
-          <h3>{chapterName ? chapterName : " Select the chapter"}</h3>
- 
-          {  chapterName && <Link to="/QAset/QAadd" state={{chapterName:chapterName, id: location.state._id}} style={{ textDecoration: "none" }}><div className="editButton">Add MCQ</div></Link> }
-         <div style={{ marginRight:'5%', marginTop:'-1%'}}>
+          <div className="left" style={{display:'flex', justifyContent:'space-around'}}>
+            <div style={{marginLeft:'-10%'}}>
+            <h3>{chapterName ? chapterName : " Select the chapter"}</h3>
+            </div>
+  
+
+        {  chapterName && <Link to="/QAset/QAadd" state={{chapterName:chapterName, id: location.state._id}} style={{ textDecoration: "none" }}><div className="editButton">Add MCQ</div></Link> }
+       <div style={{display:'flex',justifyContent:'space-between'}}>
+
+          {chapterName &&
+          <div style={{display:'flex', justifyContent:'center',alignItems:'center'}}>
+
+          <h3>W:</h3>
+          
+          <FormControl size="small">
+                  <Select value={weightage} onChange={handleChange}>
+        {Array.from(new Array(10), (x,i) => i+1).map((value, index) => {
+          return <MenuItem value={value}>{value}</MenuItem>;
+        })}
+      </Select>
+                  </FormControl>  
+          </div>
+}
+
+<span>
+<div style={{ marginRight:'5%', marginTop:'-1%'}}>
          <Button onClick={ ()=>history("/QAset")}>back</Button>
          </div>
+</span>
+
         
+       </div>
+       
+       
    
 
           </div>

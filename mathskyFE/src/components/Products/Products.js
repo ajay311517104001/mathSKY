@@ -11,19 +11,20 @@ import {
 	FeatureName,
 	FeatureTextWrapper,
 } from './FeaturesStyles';
- import { featuresData } from '../../data/FeaturesData';
+import { featuresData } from '../../data/FeaturesData';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { CgEnter } from 'react-icons/cg';
 import { getCategoryListApi, getProductsApi, getSubjectListApi } from '../../ApiService';
+import { useLocation, useHistory } from 'react-router-dom';
+
 
 const Products = (props) => {
-
+	let history = useHistory();
 	const [category, setCategory] = useState('');
-	const [subject,setSubject]=useState('');
-    const [stdlist,setStdlist]=useState([]);
-	const [subjectList,setSubjectList]=useState([])
-	const [products,setProducts]=useState([])
+	const [subject, setSubject] = useState('');
+	const [stdlist, setStdlist] = useState([]);
+	const [subjectList, setSubjectList] = useState([])
+	const [products, setProducts] = useState([])
 
 	const initial = {
 		y: 40,
@@ -35,84 +36,84 @@ const Products = (props) => {
 	};
 
 
-	const getProducts =(data)=>{
+	const getProducts = (data) => {
 		getProductsApi(data)
-		.then((res)=>{
-			if(res.length>0){
-				console.log("the products are",res)
-				setProducts(res)
+			.then((res) => {
+				if (res.length > 0) {
+					console.log("the products are", res)
+					setProducts(res)
 
-			}
-			
-		})
-	}
-	const getSubjectList =(id)=>{
-		getSubjectListApi(id)
-		.then((res)=>{
-			console.log("the res for the res mah be",res)
-			if(res.length>0){
-
-				setSubjectList(res)
-				setSubject(res[0].Subject)
-				const data ={
-					category:id,
-					Subject:res[0].Subject
 				}
-				getProducts(data)
+
+			})
+	}
+	const getSubjectList = (id) => {
+		getSubjectListApi(id)
+			.then((res) => {
+				console.log("the res for the res mah be", res)
+				if (res.length > 0) {
+
+					setSubjectList(res)
+					setSubject(res[0].Subject)
+					const data = {
+						category: id,
+						Subject: res[0].Subject
+					}
+					getProducts(data)
 
 
-			}
-		})
+				}
+			})
 	}
 
 	useEffect(() => {
 		const token = localStorage.getItem("jwt");
 		console.log("the token is ", token)
 		getCategoryListApi()
-		.then((res)=>{
-			if(res.length>0){
-			setStdlist(res)
-			setCategory(res[0].StdName);
-			getSubjectList(res[0].category)
+			.then((res) => {
+				if (res.length > 0) {
+					setStdlist(res)
+					setCategory(res[0].StdName);
+					getSubjectList(res[0].category)
 
-		}
-	
-		})
+				}
+
+			})
 
 	}, [])
 
 	const handleCategoryChange = (e) => {
 
-		 setCategory(e.target.value);
+		setCategory(e.target.value);
 		// getSubjectList(e.target.value)
 
-	  };
-	
-	  const handleSubjectChange = (e) => {
+	};
+
+	const handleSubjectChange = (e) => {
 
 		setSubject(e.target.value);
-	   // getSubjectList(e.target.value)
-
-	 };
-   
-	 const handleCategoryApiCall = (e) => {
-		getSubjectList(e.category)
-		 // setCategory(e.target.value);
 		// getSubjectList(e.target.value)
- 
-	  };
+
+	};
+
+	const handleCategoryApiCall = (e) => {
+		getSubjectList(e.category)
+		// setCategory(e.target.value);
+		// getSubjectList(e.target.value)
+
+	};
 
 	const handleSubjectApiCall = (e) => {
-	    console.log("kajdsnfkjasdf",e)
-		const data ={
-			category:e.category,
-			Subject:e.Subject
+		console.log("kajdsnfkjasdf", e)
+		const data = {
+			category: e.category,
+			Subject: e.Subject
 		}
 		getProducts(data)
 		// setCategory(e.target.value);
-	   // getSubjectList(e.target.value)
+		// getSubjectList(e.target.value)
 
-	 };
+	};
 
 	return (
 		<Section smPadding="50px 10px" position="relative" inverse id="about" ref={props.myRef}>
@@ -128,33 +129,33 @@ const Products = (props) => {
 						color="standard"
 						value={category}
 						exclusive
-						 onChange={handleCategoryChange}
+						onChange={handleCategoryChange}
 						aria-label="Platform"
 					>
-						{ stdlist.length>0 && stdlist.map((item,index)=>{
-							return(<ToggleButton value={item.StdName} onClick={()=>handleCategoryApiCall(item)} key={index}>{item.StdName}</ToggleButton>)
-	
+						{stdlist.length > 0 && stdlist.map((item, index) => {
+							return (<ToggleButton value={item.StdName} onClick={() => handleCategoryApiCall(item)} key={index}>{item.StdName}</ToggleButton>)
+
 						})}
-		
+
 
 
 					</ToggleButtonGroup>
-					
+
 				</center>
 
-             <br/>
+				<br />
 				<center>
 
 					<ToggleButtonGroup
 						color="standard"
 						value={subject}
 						exclusive
-						   onChange={handleSubjectChange}
+						onChange={handleSubjectChange}
 						aria-label="Platform"
 					>
-						{ subjectList.length>0 && subjectList.map((item,index)=>{
-							return(<ToggleButton value={item.Subject} onClick={()=>handleSubjectApiCall(item)} key={index}>{item.Subject}</ToggleButton>)
-	
+						{subjectList.length > 0 && subjectList.map((item, index) => {
+							return (<ToggleButton value={item.Subject} onClick={() => handleSubjectApiCall(item)} key={index}>{item.Subject}</ToggleButton>)
+
 						})}
 					</ToggleButtonGroup>
 				</center>
@@ -163,44 +164,58 @@ const Products = (props) => {
 
 						if (JSON.parse(localStorage.getItem("accessToken"))) {
 							return (
-								<Link to={el.link}>
+								<div style={{ cursor: 'pointer' }}>
 									<FeatureColumn
 										initial={initial}
 										animate={animate}
 										transition={{ duration: 0.5 + index * 0.1 }}
 										key={index}
+										onClick={() => {
+											let srt ="MCQ SERIES ELITE"
+										   console.log("the module name is",el.productName.replace(/\s/g,''))
+											history.push({
+												pathname: "/testModules/" + el.productName.replace(/\s/g,''),
+												state: el
+											})
+										}
 
 
-									>
-										<FeatureImageWrapper className={el.imgClass}>
-										<BsStarHalf size="3rem" color="#0f0f0f" />
-										</FeatureImageWrapper>
-										<FeatureName>{el.name}</FeatureName>
-										<FeatureText>{el.description}</FeatureText>
-									</FeatureColumn>
-								</Link>
-							)
-						} else {
-							return (
-								// <Link to={"/signup"}>
-								<div style={{cursor:'pointer'}}>
-									<FeatureColumn
-										initial={initial}
-										animate={animate}
-										transition={{ duration: 0.5 + index * 0.1 }}
-										key={index}
-										
+										}
+
 
 
 									>
 										<FeatureName>{el.StdName}</FeatureName>
-										<FeatureImageWrapper className={el.imgClass} style={{marginTop:'3%'}}>
-										<BsStarHalf size="2rem" color="#0f0f0f" />
+										<FeatureImageWrapper className={el.imgClass} style={{ marginTop: '3%' }}>
+											<BsStarHalf size="2rem" color="#0f0f0f" />
 										</FeatureImageWrapper>
 										<FeatureName>{el.productName}</FeatureName>
 										<FeatureText>{el.totalTestModules} MCQ Test Modules</FeatureText>
 									</FeatureColumn>
-									</div>
+								</div>
+							)
+						} else {
+							return (
+								// <Link to={"/signup"}>
+								<div style={{ cursor: 'pointer' }}>
+									<FeatureColumn
+										initial={initial}
+										animate={animate}
+										transition={{ duration: 0.5 + index * 0.1 }}
+										key={index}
+										onClick={() => history.push("/signup")}
+
+
+
+									>
+										<FeatureName>{el.StdName}</FeatureName>
+										<FeatureImageWrapper className={el.imgClass} style={{ marginTop: '3%' }}>
+											<BsStarHalf size="2rem" color="#0f0f0f" />
+										</FeatureImageWrapper>
+										<FeatureName>{el.productName}</FeatureName>
+										<FeatureText>{el.totalTestModules} MCQ Test Modules</FeatureText>
+									</FeatureColumn>
+								</div>
 								// </Link>
 							)
 

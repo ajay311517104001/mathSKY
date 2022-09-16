@@ -56,9 +56,9 @@ const [name,setName]=useState('')
 		else if (id=="signup"){
 			history.push(to);
 		}	
-		else if (id=="signin"){
-			history.push(to);
-		}
+		// else if (id=="signin"){
+		// 	history.push(to);
+		// }
 	
 	};
 
@@ -67,7 +67,7 @@ const [name,setName]=useState('')
 			<Nav>
 				<NavbarContainer>
 					<NavLogo to="/">
-						<NavIcon src="./assets/logo.png" alt="logo" />
+						{/* <NavIcon src="./assets/logo.png" alt="logo" /> */}
 						Mathsky
 					</NavLogo>
 					<MobileIcon onClick={handleClick}>

@@ -17,6 +17,7 @@ router.post("/addQAset", async (req, res) => {
              for(let i =0; i<totalChapters;i++){
                   chapters_array.push({
                     chapterNo: "Chapter "+ Number(i+1),
+                    weightage:0,
                     mcqList:[]
                   })}
    
@@ -243,7 +244,7 @@ router.get("/getSubject/:_category",async(req,res)=>{
     console.log(" the params are", req.body)
     const {id,chapterNo} =req.body.data
     try{
-        const QAsets = await QAset.findOne({"_id": id } , {"chapters.chapterNo":1});
+        const QAsets = await QAset.findOne({"_id": id } , {"chapters.chapterNo":1,"chapters.weightage":1});
         res.status(200).json(QAsets);
         // if(QAsets){
         //     let tempArr =[]
@@ -258,6 +259,53 @@ router.get("/getSubject/:_category",async(req,res)=>{
         // }else{
         //   res.status(500).json(" err in geting the all mcq datae");
         // }
+    }catch(err){
+        res.status(500).json(" err in geting the all mcq datae");
+    }
+   
+    
+  
+  }
+  
+  );
+
+  router.post("/updateChapterWeightage", async(req, res) => {
+    console.log(" the params are", req.body)
+    const {id,chapterNo,weightage} =req.body.data
+    try{
+     const result=   await QAset.findOneAndUpdate(
+            { "_id": id ,
+             "chapters":{
+                 "$elemMatch":{
+                     "chapterNo":chapterNo,
+                 }
+
+             }}
+             
+    
+            ,{
+                $set: {
+                    "chapters.$[outer].weightage": weightage,
+                 
+                   
+                }
+            },
+            {
+                "arrayFilters":[
+                    { "outer.chapterNo": chapterNo },
+                ]
+            },
+           
+            
+           )
+           if(result){
+               res.status(200).json({"message":"success"})
+           }else{
+            res.status(500).json(" MCQ updation failed");
+           }
+    
+        
+
     }catch(err){
         res.status(500).json(" err in geting the all mcq datae");
     }

@@ -108,7 +108,147 @@ export  const  getProductsApi = (data)=>{
   
   
   }
+
+  export  const  getSubscriptionInfoApi = (data)=>{
+    let url = baseURL + 'products/mcqtestseriesInfo'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
   
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+  
+  export  const  getTestMcqListApi = (data)=>{
+    let url = baseURL + 'products/mcqtestseriesInfo'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+  
+  export  const  getQuestionSetApi = (data)=>{
+    let url = baseURL + 'mcqList/getMcqTestList'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+  
+
+  export  const  googleAuthApi = (data)=>{
+    let url = baseURL + 'auth/GoogleLogin'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+  
+
+
+  export  const  updateTestModuleStatus = (data)=>{
+    let url = baseURL + 'users/UpdateTestModuleStatus'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+
+
+  export  const  UpdateTestModuleData = (data)=>{
+    let url = baseURL + 'users/UpdateTestModuleData'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+
+
+
+
+
 
 
 

@@ -99,4 +99,106 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+
+
+
+router.post("/UpdateTestModuleStatus", async(req, res) => {
+  console.log(" the params are", req.body)
+  const {ProductId,UserId,moduleId} =req.body
+  try{
+   const result=   await User.findOneAndUpdate(
+          { "_id": UserId ,
+           "subscription":{
+               "$elemMatch":{
+                   "productId":ProductId,
+                   "subscriptionList.moduleId":moduleId
+               }
+
+           }}
+           
+  
+          ,{
+              $set: {
+                  "subscription.$[outer].subscriptionList.$[inner].value": true,
+                 
+              }
+          },
+          {
+              "arrayFilters":[
+                  { "outer.productId": ProductId },
+                  { "inner.moduleId": moduleId }
+              ]
+          },
+         
+          
+         )
+         if(result){
+             res.status(200).json({"message":"success"})
+         }else{
+          res.status(500).json(" MCQ updation failed");
+         }
+  
+      
+
+  }catch(err){
+      res.status(500).json(" err in geting the all mcq datae");
+  }
+ 
+  
+
+}
+
+);
+
+
+router.post("/UpdateTestModuleData", async(req, res) => {
+  console.log(" the params are", req.body)
+  const {ProductId,UserId,moduleId,score,timeOfCompletion} =req.body
+  try{
+   const result=   await User.findOneAndUpdate(
+          { "_id": UserId ,
+           "subscription":{
+               "$elemMatch":{
+                   "productId":ProductId,
+                   "subscriptionList.moduleId":moduleId
+               }
+
+           }}
+           
+  
+          ,{
+              $set: {
+                  "subscription.$[outer].subscriptionList.$[inner].score": score,
+                  "subscription.$[outer].subscriptionList.$[inner].timeOfCompletion": timeOfCompletion,
+                 
+              }
+          },
+          {
+              "arrayFilters":[
+                  { "outer.productId": ProductId },
+                  { "inner.moduleId": moduleId }
+              ]
+          },
+         
+          
+         )
+         if(result){
+             res.status(200).json({"message":"success"})
+         }else{
+          res.status(500).json(" MCQ updation failed");
+         }
+  
+      
+
+  }catch(err){
+      res.status(500).json(" err in geting the all mcq datae");
+  }
+ 
+  
+
+}
+
+);
+
+
 module.exports = router;
