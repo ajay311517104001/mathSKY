@@ -1,5 +1,5 @@
 import React from 'react';
-import Pricing from '../components/Pricing/Pricing';
+import Pricing from '../components/Pricing/TestScreen';
 import { useLocation } from "react-router-dom";
 const PricingPage = () => {
 	const location = useLocation();

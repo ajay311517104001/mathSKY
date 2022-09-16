@@ -131,6 +131,53 @@ if(Products){
   //   res.status(500).json(err);
   // }
 });
+
+
+
+router.post("/getTestModulestatus", async (req, res) => {
+  console.log('the user is ', req.body)
+
+  const user = await User.findOne(
+    {
+        _id: mongoose.Types.ObjectId(req.body.id),
+
+    }
+  
+);
+if(user){
+  let flag=false
+
+
+  user.subscription.map((item,index)=>{
+    if(item.productId==req.body.productId){
+          item.subscriptionList.map((i)=>{
+            if(i.moduleId==req.body.moduleId){
+              flag=true
+              return   res.status(200).json({"value":i.value});
+              
+            }
+
+          })
+    } 
+  })
+  if(flag==false){
+    return   res.status(500).json({message:"couldn't find the product"});
+
+  }
+
+
+  }
+      
+
+  // const newProduct = new Product(req.body);
+
+  // try {
+  //   const savedProduct = await newProduct.save();
+  //   res.status(200).json(savedProduct);
+  // } catch (err) {
+  //   res.status(500).json(err);
+  // }
+});
 //UPDATE
 // router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //   try {

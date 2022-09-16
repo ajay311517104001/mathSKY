@@ -5,7 +5,7 @@ import tap from "../components/Animations/Tap.json";
 import { Button, Container, Section, MainHeading } from "../globalStyles";
 import sheepThumbs from "../components/Animations/sheepThumbs.json";
 
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory ,Redirect} from "react-router-dom";
 import {
   FeatureText,
   FeatureTitle,
@@ -123,11 +123,14 @@ const Results = () => {
       } else {
         setSeconds(location.state.totalTime);
       }
-    }
+    }else{
+      return  	history.go('/')
+     }
 
     return () => {
       if (history.action === "POP") {
-        history.go(-1);
+         history.push('/testModules/63248d8e81781a0d20cf8369');
+     
       }
     };
   });

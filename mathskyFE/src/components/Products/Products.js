@@ -174,7 +174,7 @@ const Products = (props) => {
 											let srt ="MCQ SERIES ELITE"
 										   console.log("the module name is",el.productName.replace(/\s/g,''))
 											history.push({
-												pathname: "/testModules/" + el.productName.replace(/\s/g,''),
+												pathname: `/testModules/${el._id}`,
 												state: el
 											})
 										}

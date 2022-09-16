@@ -16,11 +16,11 @@ import MaximizeContent from "../../customhook/max";
 
 
 
-const SampleTest = (props) => {
+const SampleTest = ({testmodule,questionset,totalQuestions,UserId,ProductId,moduleId}) => {
   let history = useHistory();
 
   let location = useLocation();
-  let questions = location.state.questions;
+  let questions = questionset;
   const [question, setQuestion] = useState(questions[0]);
 
   const [option, setOption] = useState(-1);
@@ -47,7 +47,7 @@ const SampleTest = (props) => {
     }
     setOption(-1);
     console.log(score);
-    if (count <= Number(location.state.totalQuestions)) {
+    if (count <= Number(totalQuestions)) {
       setCount(count + 1);
       setQuestion(questions[count]);
       console.log("the timer is", timer);
@@ -79,16 +79,16 @@ const SampleTest = (props) => {
       }
     };
   }, [history]);
-  useEffect(() => {
-    if (location.state) {
-      console.log("the location state-================>", location.state);
-    }
+  // useEffect(() => {
+  //   if (location.state) {
+  //     console.log("the location state-================>", location.state);
+  //   }
 
-    // getTestMcqListApi()
-    // .then((res)=>{
-    //   console.log("the response is ", res)
-    // })
-  }, []);
+  //   // getTestMcqListApi()
+  //   // .then((res)=>{
+  //   //   console.log("the response is ", res)
+  //   // })
+  // }, []);
   const handleChange = (e) => {
     const target = e.target;
     if (target.checked) {
@@ -101,9 +101,9 @@ const SampleTest = (props) => {
     if (redirect == 1) {
       console.log("the list of worng and unanswerd questions are",StudentAns)
       const data ={
-        ProductId:location.state.ProductId,
-        UserId:location.state.UserId,
-        moduleId:location.state.moduleId,
+        ProductId:ProductId,
+        UserId:UserId,
+        moduleId:moduleId,
         score:score,
         timeOfCompletion:totalTime
       }
@@ -112,11 +112,11 @@ const SampleTest = (props) => {
         console.log("the updated data res is", res)
       })
       history.push({
-        pathname: "Results",
+        pathname: "/Results",
         state: {
           score: score,
           totalTime: totalTime,
-          totalQuestions: location.state.totalQuestions,
+          totalQuestions: totalQuestions,
           correctedQAset:StudentAns
         },
       });
@@ -125,11 +125,11 @@ const SampleTest = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (count < Number(location.state.totalQuestions)) {
+      if (count < Number(totalQuestions)) {
         if (timer > 0) {
           settimer(timer - 1);
         }
-      } else if (count == Number(location.state.totalQuestions)) {
+      } else if (count == Number(totalQuestions)) {
         if (timer > 0) {
           settimer(timer - 1);
         } else {
@@ -213,7 +213,7 @@ const SampleTest = (props) => {
           </div>
           <hr />
 
-          {count < Number(location.state.totalQuestions) ? (
+          {count < Number(totalQuestions) ? (
             <div
               style={{
                 display: "flex",

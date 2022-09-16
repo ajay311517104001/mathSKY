@@ -15,6 +15,7 @@ import Mcqtestpro from './components/Content/Mcqtestpro/Mcqtestpro';
 import Navbar from './components/Navbar/Navbar';
 import { useHistory } from "react-router-dom";
 import Results from './pages/Results';
+import TestScreen from './components/Pricing/TestScreen';
 
 
 
@@ -72,11 +73,10 @@ function App() {
 				   <UnProtectedRoute path="/signup" exact component={SignUp} />
 				   <UnProtectedRoute path="/signin" exact component={SignIn} />
 	
-					<ProtectedRoute path="/sampletest"  component={Pricing} />
-					<ProtectedRoute path={"/Test"}   component={SampleTest} />
+
+
 					<ProtectedRoute path={"/testModules/:id"}  component={Mcqtestseries} />
-					<ProtectedRoute path={"/mcqtestpro"}   component={Mcqtestpro} />
-					<ProtectedRoute path={"/McqTestseriesModule"}  component={Pricing}  />
+					<ProtectedRoute path={"/TestModule/:id/ModuleInfo/:modulesName"}  component={TestScreen}  />
 					<ProtectedRoute path={"/Results"}  component={Results}  />
 				  	<Route path='*' component={NotFoundRedirect} />
 			 </Switch>

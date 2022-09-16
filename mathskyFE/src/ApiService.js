@@ -223,8 +223,32 @@ export  const  getProductsApi = (data)=>{
   }
 
 
-  export  const  UpdateTestModuleData = (data)=>{
+export  const  UpdateTestModuleData = (data)=>{
     let url = baseURL + 'users/UpdateTestModuleData'
+    const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    const options = {method:'POST', data:data};
+  return(
+      axios.post(url,data)
+      .then((res) => {
+         
+  
+         return(res.data)
+      })
+      .catch((err)=>{
+  
+        return(err)
+      }
+  
+    
+      ))
+  
+  
+  }
+
+
+
+  export  const  getTestModulestatus = (data)=>{
+    let url = baseURL + 'products/getTestModulestatus'
     const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     const options = {method:'POST', data:data};
   return(
@@ -251,9 +275,7 @@ export  const  getProductsApi = (data)=>{
 
 
 
-
-
-
+  
 
 
 

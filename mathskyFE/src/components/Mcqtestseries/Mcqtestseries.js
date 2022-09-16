@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Section, MainHeading } from "../../globalStyles";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   HeroVideo,
   HeroSection,
@@ -8,7 +8,7 @@ import {
   ButtonWrapper,
   HeroButton,
 } from "../Hero/HeroStyles";
-import { getSubscriptionInfoApi } from "../../ApiService";
+import { getSubscriptionInfoApi ,getTestModulestatus} from "../../ApiService";
 import { useLocation, useHistory } from "react-router-dom";
 import { RiLock2Fill, RiLockUnlockFill } from "react-icons/ri";
 import axios from "axios";
@@ -107,10 +107,14 @@ const Mcqtestseries = (props) => {
           description: location.state.productName,
         });
       }
+      setTestModules(testmodule);
+      getSubscriptionInfo();
+    }else{
+     return  	history.replace('/')
     }
+ 
 
-    setTestModules(testmodule);
-    getSubscriptionInfo();
+  
   }, [trigger]);
 
   function changeBackground(e) {
@@ -266,9 +270,10 @@ const Mcqtestseries = (props) => {
                         key={index}
                         onClick={() => {
                           console.log("clicked", el);
-
+                          let moduleId =el.name.split(/\s+/)
+                         let code = 'M' + moduleId[moduleId.length-1 ]
                           history.push({
-                            pathname: "/McqTestseriesModule",
+                            pathname: `/TestModule/${location.state._id}/ModuleInfo/${code}`,
                             state: {
                               testmodule: el,
                               testtype: el.name,
@@ -296,14 +301,14 @@ const Mcqtestseries = (props) => {
                         animate={animate}
                         transition={{ duration: 0.5 + index * 0.1 }}
                         key={index}
-                        onClick={() => {
-                          console.log("clicked", index + 1);
+                        // onClick={() => {
+                        //   console.log("clicked", index + 1);
 
-                          history.push({
-                            pathname: "McqTestseriesModule",
-                            state: { testmodule: (index + 1).toString() },
-                          });
-                        }}
+                        //   // history.push({
+                        //   //   pathname: "McqTestseriesModule",
+                        //   //   state: { testmodule: (index + 1).toString() },
+                        //   // });
+                        // }}
                       >
                         {iconStyle(RiLockUnlockFill)}
                         {/* <FeatureImageWrapper className={el.imgClass}>
