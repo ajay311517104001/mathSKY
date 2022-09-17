@@ -105,6 +105,42 @@ if(user){
   // }
 });
 
+router.post("/getSubscriptionInfo", async (req, res) => {
+  console.log('the user is ', req.body)
+
+  const user = await User.findOne(
+    {
+        _id: mongoose.Types.ObjectId(req.body.id)
+    }
+  
+);
+if(user){
+  let flag=false
+  console.log('the user is ', user.subscription)
+  user.subscription.map((item)=>{
+      if(item.productId==req.body.productId){
+        flag=true
+      return  res.status(200).json({status:true,list:item.subscriptionList});
+      }
+  })
+  if(flag==false){
+    return res.status(200).json({status:false});
+
+  }
+
+  }
+      
+
+  // const newProduct = new Product(req.body);
+
+  // try {
+  //   const savedProduct = await newProduct.save();
+  //   res.status(200).json(savedProduct);
+  // } catch (err) {
+  //   res.status(500).json(err);
+  // }
+});
+
 router.post("/getProducts", async (req, res) => {
   console.log('the user is ', req.body)
    const {category,Subject}=req.body
