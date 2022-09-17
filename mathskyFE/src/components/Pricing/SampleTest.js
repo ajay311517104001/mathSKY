@@ -16,7 +16,7 @@ import MaximizeContent from "../../customhook/max";
 
 
 
-const SampleTest = ({testmodule,questionset,totalQuestions,UserId,ProductId,moduleId}) => {
+const SampleTest = ({testmodule,questionset,totalQuestions,UserId,ProductId,moduleId,ResultScreenProps}) => {
   let history = useHistory();
 
   let location = useLocation();
@@ -104,22 +104,30 @@ const SampleTest = ({testmodule,questionset,totalQuestions,UserId,ProductId,modu
         ProductId:ProductId,
         UserId:UserId,
         moduleId:moduleId,
-        score:score,
+        scoreSecured:score,
         timeOfCompletion:totalTime
       }
       UpdateTestModuleData(data)
       .then((res)=>{
         console.log("the updated data res is", res)
       })
-      history.push({
-        pathname: "/Results",
-        state: {
-          score: score,
-          totalTime: totalTime,
-          totalQuestions: totalQuestions,
-          correctedQAset:StudentAns
-        },
-      });
+      let properties = {
+        score: score,
+        totalTime: totalTime,
+        totalQuestions: totalQuestions,
+        correctedQAsetprop:StudentAns
+      }
+      ResultScreenProps(properties)
+      
+      // history.push({
+      //   pathname: "/Results",
+      //   state: {
+      //     score: score,
+      //     totalTime: totalTime,
+      //     totalQuestions: totalQuestions,
+      //     correctedQAset:StudentAns
+      //   },
+      // });
     }
   }, [redirect]);
 

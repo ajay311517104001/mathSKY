@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-let baseURL='http://localhost:8001/api/'
+// let baseURL='http://localhost:8001/api/'
+
+  let baseURL='https://young-sierra-48453.herokuapp.com/api/'
+
 
 
 export  const  authSignUpApi = (data)=>{
@@ -110,7 +113,8 @@ export  const  getProductsApi = (data)=>{
   }
 
   export  const  getSubscriptionInfoApi = (data)=>{
-    let url = baseURL + 'products/mcqtestseriesInfo'
+    console.log("the entered data is",data)
+    let url = baseURL + 'products/getSubscriptionInfo'
     const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     const options = {method:'POST', data:data};
   return(

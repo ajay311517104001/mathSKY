@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Section, MainHeading } from "../../globalStyles";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect,useParams } from "react-router-dom";
 import {
   HeroVideo,
   HeroSection,
@@ -8,7 +8,7 @@ import {
   ButtonWrapper,
   HeroButton,
 } from "../Hero/HeroStyles";
-import { getSubscriptionInfoApi ,getTestModulestatus} from "../../ApiService";
+import { getSubscriptionInfoApi, getTestModulestatus } from "../../ApiService";
 import { useLocation, useHistory } from "react-router-dom";
 import { RiLock2Fill, RiLockUnlockFill } from "react-icons/ri";
 import axios from "axios";
@@ -23,23 +23,11 @@ import {
 } from "../Products/FeaturesStyles";
 import { featuresData } from "../../data/FeaturesData";
 import Navbar from "../Navbar/Navbar";
-
-const testmodules = [
-  {
-    name: "Test Module 1",
-    description: " Free MCQ Test ",
-  },
-  {
-    name: "Test Module 2",
-    description: "50 MCQ Test Modules",
-  },
-  {
-    name: "Test Module 3",
-    description: "Unlimited Custom Test Series",
-  },
-];
+import ReactLoading from "react-loading";
 
 const Mcqtestseries = (props) => {
+  let {  id } = useParams();
+
   const iconStyle = (Icon) => <Icon size="5rem" color="#0f0f0f" />;
   let history = useHistory();
   let location = useLocation();
@@ -56,65 +44,103 @@ const Mcqtestseries = (props) => {
   const [subcriptionStatus, setSubscriptionStatus] = useState(false);
   const [trigger, setTrigger] = useState(0);
   const [testModulesDetails, setTestModulesDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getSubscriptionInfo = () => {
     console.log("access api called");
     let userId = JSON.parse(localStorage.getItem("userId"));
-    getSubscriptionInfoApi({ id: userId }).then((data) => {
-      if (data) {
+    getSubscriptionInfoApi({ id: userId,productId:id }).then((data) => {
+      console.log("the datat is ",data)
+      if (data.status) {
         console.log(
           "this is the subcription Info api data",
-          location.state.QAsetId
+          data
         );
-        if (data.length > 0) {
-          let ModuleDataArr = [];
-          for (let i = 0; i < data.length; i++) {
-            if (data[i].productId === location.state._id) {
-              setSubscriptionStatus(true);
-              //for loop
-              // add test moudle dynamic count
-              //add product name
-              //status
-              for (let j = 0; j < data[i].subscriptionList.length; j++) {
-                ModuleDataArr.push({
-                  QAsetId: location.state.QAsetId,
-                  name: "Test Module " + Number(j + 1),
-                  description: location.state.productName,
-                  status: data[i].subscriptionList[j].value,
-                  score : data[i].subscriptionList[j].score
-                });
-              }
-              console.log("the generated datas are", ModuleDataArr);
-              setTestModules(ModuleDataArr);
-              break;
-            }
-          }
+
+
+        setSubscriptionStatus(true);
+        let ModuleDataArr = [];
+        for (let j = 0; j < data.list.length; j++) {
+          ModuleDataArr.push({
+            QAsetId: location.state.QAsetId,
+            name: "Test Module " + Number(j + 1),
+            description: location.state.productName,
+            status: data.list[j].value,
+            score: data.list[j].score,
+          });
         }
-      }
-    });
-  };
+        setTestModules(ModuleDataArr);
+        setTestModulesDetails(location.state);
+        setLoading(false)
 
-  useEffect(() => {
-    let testmodule = [];
 
-    if (location.state) {
-      console.log("the props are---> ", location.state);
-      setTestModulesDetails(location.state);
+        // console.log("the generated datas are", ModuleDataArr);
+        // setTestModules(ModuleDataArr);
 
+        // if (data.length > 0) {
+        //   let ModuleDataArr = [];
+        //   for (let i = 0; i < data.length; i++) {
+        //     if (data[i].productId === location.state._id) {
+        //       setSubscriptionStatus(true);
+        //       //for loop
+        //       // add test moudle dynamic count
+        //       //add product name
+        //       //status
+
+        //       for (let j = 0; j < data[i].subscriptionList.length; j++) {
+        //         ModuleDataArr.push({
+        //           QAsetId: location.state.QAsetId,
+        //           name: "Test Module " + Number(j + 1),
+        //           description: location.state.productName,
+        //           status: data[i].subscriptionList[j].value,
+        //           score: data[i].subscriptionList[j].score,
+        //         });
+        //       }
+        //       console.log("the generated datas are", ModuleDataArr);
+        //       setTestModules(ModuleDataArr);
+
+        //       break;
+        //     }
+        //   }
+        //   setTestModulesDetails(location.state);
+        //   setLoading(false)
+
+        // }
+         
+        
+      }else{
+              let testmodule = [];
+      console.log("hello bro im workign gine",location.state.totalTestModules)
+   
       for (let i = 1; i < location.state.totalTestModules + 1; i++) {
         testmodule.push({
           name: "Test Module " + i,
           description: location.state.productName,
         });
       }
+      setTestModulesDetails(location.state);
       setTestModules(testmodule);
-      getSubscriptionInfo();
-    }else{
-     return  	history.replace('/')
-    }
- 
+      setLoading(false)
 
+
+      }
+    });
+  };
+
+  useEffect(() => {
+
+
+    if (location.state) {
+      getSubscriptionInfo()
   
+
+   
+
+    
+
+    } else {
+      return history.replace("/");
+    }
   }, [trigger]);
 
   function changeBackground(e) {
@@ -222,30 +248,42 @@ const Mcqtestseries = (props) => {
           flexDirection: "column",
         }}
       >
-        <MainHeading>{testModulesDetails.productName}</MainHeading>
+    
+        {loading ? 
 
-        {subcriptionStatus == false && (
-          <center>
-            <HeroText style={{ fontSize: 30 }}>
-              Rs.{testModulesDetails.price}
-            </HeroText>
-            <Button
-              onMouseOver={changeBackground}
-              onMouseLeave={changeBackgroundleave}
-              onClick={() =>
-                handlePayment(
-                  testModulesDetails.price,
-                  testModulesDetails.productName,
-                  testModulesDetails.totalTestModules,
-                  testModulesDetails.StdName,
-                  testModulesDetails.Subject
-                )
-              }
-            >
-              BUY
-            </Button>
+            <center>
+            <ReactLoading type="bars" color="#fff" />
           </center>
-        )}
+          : 
+
+          subcriptionStatus == false ? <>
+               <MainHeading>{testModulesDetails.productName}</MainHeading>
+            <center>
+              <HeroText style={{ fontSize: 30 }}>
+                Rs.{testModulesDetails.price}
+              </HeroText>
+              <Button
+                onMouseOver={changeBackground}
+                onMouseLeave={changeBackgroundleave}
+                onClick={() =>
+                  handlePayment(
+                    testModulesDetails.price,
+                    testModulesDetails.productName,
+                    testModulesDetails.totalTestModules,
+                    testModulesDetails.StdName,
+                    testModulesDetails.Subject
+                  )
+                }
+              >
+                BUY
+              </Button>
+            </center></>
+       :
+       
+       <MainHeading>{testModulesDetails.productName}</MainHeading>
+  
+        }
+      
       </div>
       <Section
         position="relative"
@@ -270,15 +308,14 @@ const Mcqtestseries = (props) => {
                         key={index}
                         onClick={() => {
                           console.log("clicked", el);
-                          let moduleId =el.name.split(/\s+/)
-                         let code = 'M' + moduleId[moduleId.length-1 ]
+                          let moduleId = el.name.split(/\s+/);
+                          let code = "M" + moduleId[moduleId.length - 1];
                           history.push({
                             pathname: `/TestModule/${location.state._id}/ModuleInfo/${code}`,
                             state: {
                               testmodule: el,
                               testtype: el.name,
-                              productId:location.state._id
-                              
+                              productId: location.state._id,
                             },
                           });
                         }}
@@ -316,12 +353,13 @@ const Mcqtestseries = (props) => {
 											</FeatureImageWrapper> */}
                         <br />
                         <FeatureName>{el.name}</FeatureName>
-                        {
-                          el.score == -1 
-                          ? <FeatureText>completed the test with 0 score</FeatureText>
-                          : <FeatureText>completed</FeatureText>
-                        }
-                        
+                        {el.score == -1 ? (
+                          <FeatureText>
+                            completed the test with 0 score
+                          </FeatureText>
+                        ) : (
+                          <FeatureText>completed</FeatureText>
+                        )}
                       </FeatureColumn>
                     </div>
                   );

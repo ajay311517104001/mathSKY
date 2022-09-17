@@ -5,7 +5,7 @@ import tap from "../components/Animations/Tap.json";
 import { Button, Container, Section, MainHeading } from "../globalStyles";
 import sheepThumbs from "../components/Animations/sheepThumbs.json";
 
-import { useLocation, useHistory ,Redirect} from "react-router-dom";
+import { useLocation, useHistory ,Redirect } from "react-router-dom";
 import {
   FeatureText,
   FeatureTitle,
@@ -81,7 +81,7 @@ const questions=[
 
 ]
 
-const Results = () => {
+const Results = ({scoreSecured,totalTime,totalQuestions,correctedQAsetprop}) => {
   let location = useLocation();
   let history = useHistory();
   const [correctedQAset,setCorrectedQAset]=useState([])
@@ -108,32 +108,43 @@ const Results = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+// useEffect(()=>{
+//   return () => {
+//     if (history.action === "POP") {
+//        history.push('/testModules/63248d8e81781a0d20cf8369');
+   
+//     }
+//   };
+
+// },[])
+
   useEffect(() => {
-    if (location.state) {
-      setCorrectedQAset(location.state.correctedQAset)
-      console.log("the passed corrected set",location.state.correctedQAset)
-      setTotalQuestions(location.state.totalQuestions);
-      setScore(location.state.score);
-      if (location.state.totalTime > 59) {
-        var minutes = Math.floor(location.state.totalTime / 60);
-        var seconds = location.state.totalTime - minutes * 60;
+
+      setCorrectedQAset(correctedQAsetprop)
+      console.log("the passed corrected set",correctedQAsetprop)
+      setTotalQuestions(totalQuestions);
+      setScore(scoreSecured);
+      if (totalTime > 59) {
+        var minutes = Math.floor(totalTime / 60);
+        var seconds = totalTime - minutes * 60;
         setSeconds(seconds);
 
         setMinutes(minutes);
       } else {
-        setSeconds(location.state.totalTime);
+        setSeconds(totalTime);
       }
-    }else{
-      return  	history.go('/')
-     }
+
 
     return () => {
       if (history.action === "POP") {
-         history.push('/testModules/63248d8e81781a0d20cf8369');
+          // history.push('/testModules/63248d8e81781a0d20cf8369');
+          history.go(0)
+      
      
       }
     };
-  });
+  },[]);
+
 
   return (
     <div>
