@@ -152,8 +152,8 @@ router.post("/UpdateTestModuleStatus", async(req, res) => {
 
 
 router.post("/UpdateTestModuleData", async(req, res) => {
-  console.log(" the params are", req.body)
-  const {ProductId,UserId,moduleId,score,timeOfCompletion} =req.body
+  console.log(" the result status are", req.body)
+  const {ProductId,UserId,moduleId,scoreSecured,timeOfCompletion} =req.body
   try{
    const result=   await User.findOneAndUpdate(
           { "_id": UserId ,
@@ -168,7 +168,7 @@ router.post("/UpdateTestModuleData", async(req, res) => {
   
           ,{
               $set: {
-                  "subscription.$[outer].subscriptionList.$[inner].score": score,
+                  "subscription.$[outer].subscriptionList.$[inner].score": scoreSecured,
                   "subscription.$[outer].subscriptionList.$[inner].timeOfCompletion": timeOfCompletion,
                  
               }
@@ -183,6 +183,7 @@ router.post("/UpdateTestModuleData", async(req, res) => {
           
          )
          if(result){
+           console.log("the result is ",result)
              res.status(200).json({"message":"success"})
          }else{
           res.status(500).json(" MCQ updation failed");
