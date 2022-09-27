@@ -7,6 +7,7 @@ import { deleteMcqApi, getAllMcqApi, getMcqListApi, getProductApi, getQasetApi, 
 import { useNavigate ,useLocation } from "react-router-dom";
 import List from "../../components/table/Table";
 import { useEffect, useState } from "react";
+import { InlineMath, BlockMath } from "react-katex";
 
 import { Button ,  Select, MenuItem ,FormControl} from "@mui/material";
 
@@ -276,7 +277,7 @@ function handleChange(event) {
        
        
    
-
+  
           </div>
 
 
@@ -284,17 +285,26 @@ function handleChange(event) {
         <div style={{  height: '100%', width: '100%', display: 'flex', flexDirection:'column' }}>
           { chapterList.map((data,index)=>{
               return (
-                <div style={{   boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', height: '250px', width: '70%', overflow:'scroll',marginTop: '2%', marginLeft: '2%',borderRadius:10 , display:'flex', justifyContent:'start',alignItems:'center',position:'relative'}} key={index} >
+                <div style={{   boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', height: '250px', width: '70%', overflow:'hidden',marginTop: '2%', marginLeft: '2%',borderRadius:10 , display:'flex', justifyContent:'start',alignItems:'center',position:'relative'}} key={index} >
           
-          <div style={{ textAlign:'left' , width:'70%', marginLeft:'5%', lineHeight:2, }} >
-                <h4 style={{   fontWeight: '500',
-        color: '#7451f8'}}>{data.ques}</h4>
+          <div style={{  width:'70%', marginLeft:'5%', lineHeight:2, }} >
+              <h4 style={{   fontWeight: '500',
+        color: '#7451f8',display:'flex',justifyContent:'start',}}>  <BlockMath >{data.ques}</BlockMath>   </h4>
                  {
                      data.options.map((i,index)=>{
-                         return(
-                            <h4 style={{   fontWeight: '500'}}> option {index+1} : {i}</h4>
+                      if(data.ans == index){
+                        console.log("the ans of the index is ", i)
+                        return(
+                          <h4   style={{   fontWeight: '500', backgroundColor:'green', color:'white'}}>  {String.fromCharCode(65+ index) } ) <InlineMath>{i}</InlineMath></h4>
 
-                         )
+                       )
+                      } else{
+                        return(
+                          <h4   style={{   fontWeight: '500' , }}>   {String.fromCharCode(65+ index) }) <InlineMath>{i}</InlineMath></h4>
+
+                       )
+                      } 
+                     
                      })
                  }
               

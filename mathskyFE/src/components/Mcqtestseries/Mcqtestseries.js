@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Container, Section, MainHeading } from "../../globalStyles";
-import { Link, Redirect,useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
+import tick from "../../assets/tick.png";
+import cross from "../../assets/cross.png";
+import {ProgressBarLine} from 'react-progressbar-line'
+
 import {
   HeroVideo,
   HeroSection,
@@ -8,7 +12,12 @@ import {
   ButtonWrapper,
   HeroButton,
 } from "../Hero/HeroStyles";
-import { getSubscriptionInfoApi, getTestModulestatus } from "../../ApiService";
+import {
+  baseURL,
+  getSubscriptionInfoApi,
+  getTestModulestatus,
+} from "../../ApiService";
+
 import { useLocation, useHistory } from "react-router-dom";
 import { RiLock2Fill, RiLockUnlockFill } from "react-icons/ri";
 import axios from "axios";
@@ -24,9 +33,10 @@ import {
 import { featuresData } from "../../data/FeaturesData";
 import Navbar from "../Navbar/Navbar";
 import ReactLoading from "react-loading";
+// import { MathComponent } from "mathjax-react";
 
 const Mcqtestseries = (props) => {
-  let {  id } = useParams();
+  let { id } = useParams();
 
   const iconStyle = (Icon) => <Icon size="5rem" color="#0f0f0f" />;
   let history = useHistory();
@@ -39,28 +49,28 @@ const Mcqtestseries = (props) => {
     y: 0,
     opacity: 1,
   };
-
+  const [ques, setQues] = useState("");
   const [testmodules, setTestModules] = useState([]);
   const [subcriptionStatus, setSubscriptionStatus] = useState(false);
   const [trigger, setTrigger] = useState(0);
   const [testModulesDetails, setTestModulesDetails] = useState([]);
   const [loading, setLoading] = useState(true);
-
+const [completed,setCompletedTest]=useState(0);
   const getSubscriptionInfo = () => {
     console.log("access api called");
     let userId = JSON.parse(localStorage.getItem("userId"));
-    getSubscriptionInfoApi({ id: userId,productId:id }).then((data) => {
-      console.log("the datat is ",data)
+    getSubscriptionInfoApi({ id: userId, productId: id }).then((data) => {
+      console.log("the mcq data set  is ", data);
       if (data.status) {
-        console.log(
-          "this is the subcription Info api data",
-          data
-        );
-
+        console.log("this is the subcription Info api data", data);
 
         setSubscriptionStatus(true);
         let ModuleDataArr = [];
+        let completedTest =0;
         for (let j = 0; j < data.list.length; j++) {
+         if(data.list[j].value){
+          completedTest=completedTest+1
+         }
           ModuleDataArr.push({
             QAsetId: location.state.QAsetId,
             name: "Test Module " + Number(j + 1),
@@ -69,10 +79,10 @@ const Mcqtestseries = (props) => {
             score: data.list[j].score,
           });
         }
+        setCompletedTest(completedTest)
         setTestModules(ModuleDataArr);
         setTestModulesDetails(location.state);
-        setLoading(false)
-
+        setLoading(false);
 
         // console.log("the generated datas are", ModuleDataArr);
         // setTestModules(ModuleDataArr);
@@ -106,38 +116,29 @@ const Mcqtestseries = (props) => {
         //   setLoading(false)
 
         // }
-         
-        
-      }else{
-              let testmodule = [];
-      console.log("hello bro im workign gine",location.state.totalTestModules)
-   
-      for (let i = 1; i < location.state.totalTestModules + 1; i++) {
-        testmodule.push({
-          name: "Test Module " + i,
-          description: location.state.productName,
-        });
-      }
-      setTestModulesDetails(location.state);
-      setTestModules(testmodule);
-      setLoading(false)
+      } else {
+        let testmodule = [];
+        console.log(
+          "hello bro im workign gine",
+          location.state.totalTestModules
+        );
 
-
+        for (let i = 1; i < location.state.totalTestModules + 1; i++) {
+          testmodule.push({
+            name: "Test Module " + i,
+            description: location.state.productName,
+          });
+        }
+        setTestModulesDetails(location.state);
+        setTestModules(testmodule);
+        setLoading(false);
       }
     });
   };
 
   useEffect(() => {
-
-
     if (location.state) {
-      getSubscriptionInfo()
-  
-
-   
-
-    
-
+      getSubscriptionInfo();
     } else {
       return history.replace("/");
     }
@@ -175,7 +176,7 @@ const Mcqtestseries = (props) => {
       order_id: data.id,
       handler: async (response) => {
         try {
-          const verifyUrl = "http://localhost:8001/api/orders/verify";
+          const verifyUrl = `${baseURL}orders/verify`;
           const { data } = await axios.post(verifyUrl, {
             response,
             id: userId,
@@ -213,7 +214,7 @@ const Mcqtestseries = (props) => {
       let userId = JSON.parse(localStorage.getItem("userId"));
       console.log("the user id is", userId);
       if (userId) {
-        const orderUrl = "http://localhost:8001/api/orders/createOrder";
+        const orderUrl = `${baseURL}orders/createOrder`;
         const { data } = await axios.post(orderUrl, { amount: price });
         console.log(data);
         initPayment(
@@ -248,16 +249,13 @@ const Mcqtestseries = (props) => {
           flexDirection: "column",
         }}
       >
-    
-        {loading ? 
-
-            <center>
+        {loading ? (
+          <center>
             <ReactLoading type="bars" color="#fff" />
           </center>
-          : 
-
-          subcriptionStatus == false ? <>
-               <MainHeading>{testModulesDetails.productName}</MainHeading>
+        ) : subcriptionStatus == false ? (
+          <>
+            <MainHeading>{testModulesDetails.productName}</MainHeading>
             <center>
               <HeroText style={{ fontSize: 30 }}>
                 Rs.{testModulesDetails.price}
@@ -265,25 +263,48 @@ const Mcqtestseries = (props) => {
               <Button
                 onMouseOver={changeBackground}
                 onMouseLeave={changeBackgroundleave}
-                onClick={() =>
+                onClick={() => {
+                  console.log("the buy is clicked");
+
                   handlePayment(
                     testModulesDetails.price,
                     testModulesDetails.productName,
                     testModulesDetails.totalTestModules,
                     testModulesDetails.StdName,
                     testModulesDetails.Subject
-                  )
-                }
+                  );
+                }}
               >
                 BUY
               </Button>
-            </center></>
-       :
-       
-       <MainHeading>{testModulesDetails.productName}</MainHeading>
-  
-        }
+            </center>
+          </>
+        ) : (
+          <>
+            <MainHeading>{testModulesDetails.productName}</MainHeading>
+            <br/>
+            <br/>
+<div style={{height:'10%'}}>
+<ProgressBarLine
+      value={completed}
+      min={0}
+      max={testmodules.length}
+      styles={{
+        path: {
+          stroke: '#1ba94c'
+        },
       
+        text: {
+          fill: 'white',
+          textAlign: 'center',
+          fontSize: '25px'
+        }
+      }}
+    />
+</div>
+    
+          </>
+        )}
       </div>
       <Section
         position="relative"
@@ -293,7 +314,26 @@ const Mcqtestseries = (props) => {
         style={{ padding: 0 }}
       >
         <Container>
-          <FeatureWrapper>
+          <FeatureWrapper style={{ marginBottom: "5%" }}>
+            {/* <input
+                    value={ques}
+                    style={{ width: "100%", height: "40%", marginTop: "2%" }}
+                    type="textarea"
+                    onChange={(e) => {
+                      setQues(e.target.value);
+                      // (e.target.value)
+                    }}
+                  />
+                        <div
+                  style={{
+                    backgroundColor: "#6439ff",
+                    padding: 7,
+                    color: "white",
+                    width: "100%",
+                  }}
+                >
+                  <MathComponent  tex={ques} />
+                </div> */}
             {testmodules.map((el, index) => {
               console.log("the el status is ", el.status);
 
@@ -326,7 +366,7 @@ const Mcqtestseries = (props) => {
 											  </FeatureImageWrapper> */}
                         <br />
                         <FeatureName>{el.name}</FeatureName>
-                        <FeatureText>{el.description}</FeatureText>
+                        <FeatureText>Ready to go!</FeatureText>
                       </FeatureColumn>
                     </div>
                   );
@@ -347,16 +387,17 @@ const Mcqtestseries = (props) => {
                         //   // });
                         // }}
                       >
-                        {iconStyle(RiLockUnlockFill)}
-                        {/* <FeatureImageWrapper className={el.imgClass}>
-												{el.icon}
-											</FeatureImageWrapper> */}
+                        {el.score == -1 ? (
+                          <img src={cross} width="80" height="80" />
+                        ) : (
+                          <img src={tick} width="80" height="80" />
+                        )}
+
                         <br />
+
                         <FeatureName>{el.name}</FeatureName>
                         {el.score == -1 ? (
-                          <FeatureText>
-                            completed the test with 0 score
-                          </FeatureText>
+                          <FeatureText>uncompleted</FeatureText>
                         ) : (
                           <FeatureText>completed</FeatureText>
                         )}

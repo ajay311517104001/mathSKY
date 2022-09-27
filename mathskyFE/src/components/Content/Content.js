@@ -71,7 +71,7 @@ export const Content = ({
 							>
 								{description}
 							</Subtitle>
-							{
+							{/* {
 								localStorage.getItem("accessToken")?
 								<Link to="sampletest">
 								<Button>Sample test</Button>
@@ -81,7 +81,7 @@ export const Content = ({
 							<Button>Sample test</Button>
 						</Link>
 
-							}
+							} */}
 						
 						</TextWrapper>
 					</ContentColumn>

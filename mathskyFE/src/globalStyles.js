@@ -38,6 +38,15 @@ export const MainHeadingg = styled.h1`
 
 
 `;
+export const MainHeadingl = styled.h1`
+	font-size: clamp(2.3rem, 5vw, 4.5rem);
+	margin-bottom: 2rem
+	color: white;
+	width: 100%;
+	letter-spacing: 4px;
+
+
+`;
 
 export const Heading = styled.h2`
 	font-size: clamp(1.3rem, 13vw, 3.1rem);

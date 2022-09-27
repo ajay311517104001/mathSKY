@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// let baseURL='http://localhost:8001/api/'
+ //export let baseURL='http://localhost:8001/api/'
 
-  let baseURL='https://young-sierra-48453.herokuapp.com/api/'
+export let baseURL='https://young-sierra-48453.herokuapp.com/api/'
 
 
 

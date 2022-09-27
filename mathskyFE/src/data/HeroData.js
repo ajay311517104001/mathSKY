@@ -1,16 +1,6 @@
-export const heroOne = {
-	reverse: true,
-	inverse: true,
-	topLine: {
-		text: 'Founded in 2012',
-	},
-	headline: "We've been in business for 9 years",
-	description: 'We have designed and implemented the best cloud security solutions',
-	buttonLabel: 'Find More',
-	imgStart: 'start',
-	img: './assets/svg/Deal.svg',
-	start: 'true',
-};
+import f from '../assets/Connection.svg'
+
+
 
 export const heroTwo = {
 	reverse: false,
@@ -18,29 +8,13 @@ export const heroTwo = {
 	topLine: {
 		text: 'Wanna to give a try?',
 	},
-	headline: 'Take a Sample MCQ Test',
+	headline: 'Take a Free MCQ Test',
 	description: '',
 	buttonLabel: 'View Project',
 
 	linkTo: '/more',
 	imgStart: 'start',
-	img: './assets/svg/Connection.svg',
+	img: f,
 	start: 'true',
 };
 
-export const heroThree = {
-	reverse: true,
-	inverse: true,
-	topLine: {
-		text: 'Highly reputed brand',
-	},
-	headline: 'Why us? ',
-	description:
-		'Our 9 year experience have allowed us to use the most innovative technologies and methodologies',
-	buttonLabel: 'View Project',
-
-	linkTo: '/download',
-	imgStart: '',
-	img: './assets/svg/ChartUp.svg',
-	start: 'true',
-};

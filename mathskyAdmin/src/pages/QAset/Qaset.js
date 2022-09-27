@@ -55,7 +55,7 @@ const QAset = () => {
                   boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                   height: "250px",
                   width: "28%",
-                  overflow: "scroll",
+                  overflow: "hidden",
                   marginTop: "2%",
                   marginLeft: "2%",
                   borderRadius: 10,

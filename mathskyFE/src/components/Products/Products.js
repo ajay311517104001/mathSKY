@@ -113,7 +113,7 @@ const Products = (props) => {
     >
       <Container>
         <FeatureTextWrapper>
-          <FeatureTitle>Mathsky Modules</FeatureTitle>
+          <FeatureTitle>Centum Modules</FeatureTitle>
         </FeatureTextWrapper>
 
         {loading ? (

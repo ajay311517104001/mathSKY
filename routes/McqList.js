@@ -20,9 +20,9 @@ router.post("/getMcqTestList", async(req, res) => {
 
     const QAsets = await QAset.find({
         _id:id
-    },{chapters:1})
+    },{chapters:1,StdName:1})
     
-    if(QAsets.length>0){
+    if(QAsets[0].chapters.length>0 && QAsets[0].StdName){
       
        let McqTestList =[]
        //10 chapters
@@ -33,6 +33,10 @@ router.post("/getMcqTestList", async(req, res) => {
         })
        })
 
+        let stdName=QAsets[0].StdName
+       
+
+console.log("the std name is",QAsets[0].StdName)
     //   for(let i=0;i<QAsets[0].chapters.length;i++){
            
     //         let rand = randomNumber(0,QAsets[0].chapters[i].mcqList.length-1)
@@ -43,7 +47,7 @@ router.post("/getMcqTestList", async(req, res) => {
 
     //   console.log("the mcq list is",QAsets[0]["chapters"])
         
-      res.status(200).json(McqTestList);
+      res.status(200).json( { StdName:stdName, McqTestList:McqTestList});
     }else{
       res.status(500).json("failure");
     }

@@ -1,7 +1,7 @@
 export const data = [
 	{
 		to: '/',
-		text: 'Mathsky Modules',
+		text: 'Centum Modules',
 		id: 'about',
 	},
 

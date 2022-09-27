@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 
 import { addMCQApi, addQasetApi, updateMcqApi } from "../../ApiService";
 import "katex/dist/katex.min.css";
+import {Mathmark} from '../MathMarkdown/MarkDown';
+
 import { InlineMath, BlockMath } from "react-katex";
 import { Button } from "@mui/material";
 
@@ -19,7 +21,7 @@ const QAadd = () => {
   const [subject, setSubject] = useState("");
   const [ques, setQues] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
-  const [ans, setAns] = useState("");
+  const [ans, setAns] = useState(-1);
   const [uans, setUans] = useState("");
 
   useEffect(() => {
@@ -41,7 +43,8 @@ const QAadd = () => {
   };
 
   const onSave = () => {
-    // if(ques &&  options && ans && location.state.chapterName && location.state.id){
+  //  if(ques &&  options && ans && location.state.chapterName && location.state.id){
+   
     console.log(
       "the subject is ",
       ques,
@@ -58,20 +61,23 @@ const QAadd = () => {
       ans: ans,
       chapterNo: location.state.chapterName,
     };
-    addMCQApi(data).then((res) => {
-      console.log("the mcq res is ", res);
-
-      //location.state.getChapterNo(location.state.chapterName)
-      history("/QAset/QAkeyin", {
-        state: {
-          _id: location.state.id,
-          flag: "addnew",
-          chapterName: location.state.chapterName,
-        },
+    if(options.length!==0){
+      addMCQApi(data).then((res) => {
+        console.log("the mcq res is ", res);
+  
+        //location.state.getChapterNo(location.state.chapterName)
+        history("/QAset/QAkeyin", {
+          state: {
+            _id: location.state.id,
+            flag: "addnew",
+            chapterName: location.state.chapterName,
+          },
+        });
+        // setData(res)
       });
-      // setData(res)
-    });
-    // }
+    }
+  
+  //  }
 
     // console.log("the totalChapters is ", totalChapters)
     // console.log("the standard is ", standard)
@@ -342,7 +348,7 @@ const QAadd = () => {
                     color: "white",
                   }}
                 >
-                  <BlockMath>{ques}</BlockMath>
+                  <Mathmark>{ques}</Mathmark>
                 </div>
                 <div
                   className="formInput"

@@ -45,6 +45,23 @@ export const HeroTexttt = styled.p`
 
 	color: #fff;
 `;
+export const HeroTextttl = styled.p`
+	font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+
+	text-align: center;
+	letter-spacing: 2px;
+
+	color: #fff;
+`;
+export const HeroTexttl = styled.div`
+	margin-bottom: 35px;
+	font-size: clamp(0.9rem, 1.5vw, 1.3rem);
+	line-height: 24px;
+	text-align: left;
+	letter-spacing: 2px;
+	margin-left:5%;
+	color: #fff;
+`;
 
 export const ButtonWrapper = styled.div`
 	width: 100%;

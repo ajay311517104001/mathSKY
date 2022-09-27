@@ -17,7 +17,7 @@ export const FeatureTextWrapper = styled.div`
 
 
 export const ResultWrapper = styled.div`
-	display: grid;
+	
 	grid-template-columns: repeat(1, 1fr);
 	margin-top: 3rem;
 	grid-gap: 2rem;

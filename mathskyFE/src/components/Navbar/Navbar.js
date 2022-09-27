@@ -68,7 +68,7 @@ const [name,setName]=useState('')
 				<NavbarContainer>
 					<NavLogo to="/">
 						{/* <NavIcon src="./assets/logo.png" alt="logo" /> */}
-						Mathsky
+						Centum
 					</NavLogo>
 					<MobileIcon onClick={handleClick}>
 						{show ? <FaTimes /> : <CgMenuRight />}

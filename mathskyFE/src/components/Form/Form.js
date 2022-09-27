@@ -14,6 +14,7 @@ import {
 import { Container, Section } from "../../globalStyles";
 import GoogleLogin from "react-google-login";
 import {gapi} from 'gapi-script'
+import Lottie from "react-lottie";
 
 import { validateForm, validateFormlogin } from "./validateForm";
 import axios from "axios";
@@ -21,7 +22,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import "./Form.css";
 import { authSignInApi, authSignUpApi, googleAuthApi } from "../../ApiService";
-
+import Kola from "../../components/Animations/kola.json";
 const SignUpForm = () => {
   let history = useHistory();
 
@@ -114,6 +115,18 @@ const data ={
 const onFailure =(res)=>{
 console.log("this is on failure",res)
 }
+
+const defaultOptions1 = {
+  loop: true,
+  autoplay: true,
+  // here is where we will declare lottie animation
+  animationData: Kola,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
+
+
   const formData = [
     {
       label: "Name",
@@ -145,10 +158,11 @@ console.log("this is on failure",res)
       <Container style={{height:'100vh'}}>
         <FormRow>
           <FormColumn style={{ marginTop: "10%", marginBottom: "18%" }} small>
-            <FormTitle>SignIn</FormTitle>
+            {/* <FormTitle>SignIn</FormTitle> */}
+            <Lottie options={defaultOptions1} height={300} width={270} />
             <GoogleLogin
               clientId="291717498611-daceb28n13btmnk0d6q7onv1mqalplpd.apps.googleusercontent.com"
-              buttonText="Goolgle Signin"
+              buttonText="Google Signin"
               onSuccess={onSuccess}
               onFailure={onFailure}
               cookiePolicy={"single_host_origin"}
