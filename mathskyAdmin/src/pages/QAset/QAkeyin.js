@@ -284,12 +284,13 @@ function handleChange(event) {
         </div>
         <div style={{  height: '100%', width: '100%', display: 'flex', flexDirection:'column' }}>
           { chapterList.map((data,index)=>{
+            console.log("the image id is ", data.imageId)
               return (
                 <div style={{   boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px', height: '250px', width: '70%', overflow:'hidden',marginTop: '2%', marginLeft: '2%',borderRadius:10 , display:'flex', justifyContent:'start',alignItems:'center',position:'relative'}} key={index} >
           
           <div style={{  width:'70%', marginLeft:'5%', lineHeight:2, }} >
               <h4 style={{   fontWeight: '500',
-        color: '#7451f8',display:'flex',justifyContent:'start',}}>  <BlockMath >{data.ques}</BlockMath>   </h4>
+        color: '#7451f8',display:'flex',justifyContent:'start'}}> {index+1} ) <BlockMath >{data.ques}</BlockMath>   </h4>
                  {
                      data.options.map((i,index)=>{
                       if(data.ans == index){
@@ -308,7 +309,7 @@ function handleChange(event) {
                      })
                  }
               
- 
+              <h4>Hint:{ data.imageId!=="" && data.imageId!=undefined? 'Yes' : 'No'}</h4>
                   </div>
                   
         

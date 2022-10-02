@@ -2,7 +2,9 @@ import { IdTokenClient } from "google-auth-library";
 import React, { Component, useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import tap from "../components/Animations/Tap.json";
-import { Button, Container, Section, MainHeading } from "../globalStyles";
+import Button from '@mui/material/Button';
+
+import {  Container, Section, MainHeading } from "../globalStyles";
 import sheepThumbs from "../components/Animations/sheepThumbs.json";
 import cry from "../components/Animations/cry.json";
 import bear from "../components/Animations/bear.json";
@@ -78,7 +80,9 @@ const Results = ({
   const [seconds, setSeconds] = useState(0);
   const [totalquestions, setTotalQuestions] = useState(0);
   const [animation,setAnimation]=useState(0);
-
+const [hint,setHint]=useState(-1)
+const [error,setError]=useState(false)
+const [loading,setloading]=useState(false)
   const initial = {
     y: 40,
     opacity: 0,
@@ -205,7 +209,7 @@ const Results = ({
         <ResultWrapper style={{ marginBottom: "5%" }}>
           {correctedQAset.map((el, index) => {
             return (
-              <MathJax.Provider>
+
               <MCQQuestionDiv
                 initial={initial}
                 animate={animate}
@@ -223,8 +227,8 @@ const Results = ({
                   }}
                 >
                   <div style={{overflow:'auto', backgroundColor:'rgb(2, 32, 60)', color:'white', borderRadius:10}}>
-                  {/* <MathComponent   tex={el.ques} />  */}
-                  <MathJax.Node formula={el.ques} />
+                  <MathComponent   tex={el.ques} /> 
+                  {/* <MathJax.Node formula={el.ques} /> */}
 
                   </div>
 
@@ -242,6 +246,7 @@ const Results = ({
                               lineHeight: 1.5,
                               borderRadius:10,
                               color: "white",
+                              overflow:'auto'
                             }}
                             key={index}
                           >
@@ -250,7 +255,7 @@ const Results = ({
                         );
                       } else {
                         return (
-                          <FeatureName style={{ marginLeft: 0 }} key={index}>
+                          <FeatureName style={{ marginLeft: 0 ,    overflow:'auto' }} key={index}>
                             {index + 1}) <MathComponent  display ={false} tex={option}/>
                           </FeatureName>
                         );
@@ -264,6 +269,7 @@ const Results = ({
                               backgroundColor: "green",
                               lineHeight: 1.5,
                               color: "white",
+                              overflow:'auto'
                             }}
                             key={index}
                           >
@@ -277,6 +283,7 @@ const Results = ({
                               marginLeft: 0,
                               backgroundColor: "red",
                               lineHeight: 1.5,
+                              overflow:'auto'
                             }}
                             key={index}
                           >
@@ -286,7 +293,7 @@ const Results = ({
                       } else {
                         return (
                           <FeatureName
-                            style={{ marginLeft: 0, lineHeight: 1.5 }}
+                            style={{ marginLeft: 0, lineHeight: 1.5 ,    overflow:'auto'}}
                             key={index}
                           >
                             {index + 1}) <MathComponent  display ={false} tex={option}/>
@@ -296,8 +303,54 @@ const Results = ({
                     }
                   })}
                 </div>
+                <br/>
+                <div style={{display:'flex', justifyContent:'flex-end'}}>
+                <Button variant="outlined" onClick={()=>
+                  {
+                    if(hint==index){ setHint(-1)}
+                    else{
+                      setHint(index)
+                      setError(false)
+                      setloading(true)
+                    }
+                  }
+                 }> {hint ==index ? 'Hide' : 'Hint'}</Button>
+                </div>
+                <br/>
+                {
+                  hint==index &&
+                  <div style={{ display:'flex', justifyContent:'center'}}>
+                    <div style={{ overflow:'auto'}} >
+                      
+                    {    error && <center><h4>Hint will be updated soon!</h4></center>
+                    }
+                        
+                       { !error && loading && <center><h4>Loading...</h4></center>  }
+                        
+          <img
+           src={`https://drive.google.com/uc?export=view&id=${el.imageId}`}
+          // src='https://drive.google.com/uc?export=view&id=1ZiosQdRPPhwdnyNzW9GILlt_Uj5PPioF'
+       
+            alt=""
+              onLoad={()=>setloading(false)}
+              loading="lazy"
+              height={'200'}
+style={{pointerEvents:'none'}}
+              onError={()=>{
+                console.log("err")
+                setError(true)
+              }}
+
+            />
+                      
+          
+                    </div>
+         
+                  </div>
+                }
+            
               </MCQQuestionDiv>
-              </MathJax.Provider>
+
             );
           })}
         </ResultWrapper>

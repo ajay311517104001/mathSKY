@@ -178,7 +178,7 @@ router.get("/getSubject/:_category",async(req,res)=>{
     console.log("the body is ",req.body)
     const quesId = uuidv4()
     console.log("the body is ",quesId)
-    let  {ques, options , chapterNo,ans,id}=req.body
+    let  {ques, options , chapterNo,ans,id,imageId}=req.body
   
      if (req.body) {
        const newAddMcq = {
@@ -221,7 +221,7 @@ router.get("/getSubject/:_category",async(req,res)=>{
                                 quesId:quesId,
                                 ques: ques,
                                 options:options,
-                              
+                                imageId:imageId,
                                 ans:ans
                                }
                         }
@@ -345,8 +345,12 @@ router.get("/getSubject/:_category",async(req,res)=>{
 
  router.post("/updateMCQ", async(req, res) => {
     console.log(" the params are", req.body)
-    const {id,chapterNo,quesId,ques,options,ans} =req.body.data
+    const {id,chapterNo,quesId,ques,options,ans,imageId} =req.body.data
     try{
+
+
+
+  
      const result=   await QAset.findOneAndUpdate(
             { "_id": id ,
              "chapters":{
@@ -362,9 +366,12 @@ router.get("/getSubject/:_category",async(req,res)=>{
                 $set: {
                     "chapters.$[outer].mcqList.$[inner].ques": ques,
                     "chapters.$[outer].mcqList.$[inner].options":options,
-                    "chapters.$[outer].mcqList.$[inner].ans":ans
+                    "chapters.$[outer].mcqList.$[inner].ans":ans,
+                    "chapters.$[outer].mcqList.$[inner].imageId":imageId
                    
-                }
+                },
+            
+             
             },
             {
                 "arrayFilters":[

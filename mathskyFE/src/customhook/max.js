@@ -31,9 +31,9 @@ export default function MaximizeContent({ children, backgroundColor='darkgrey' }
                 </button>
                 ) : isFullscreen ? (
                     <div className="row">
-                <button 
+                {/* <button 
                   style={{marginLeft: '40em', marginTop: '-3em', color: 'black'}}
-                  className="paper-btn btn-primary text-black" onClick={handleExitFullscreen}>Exit</button>
+                  className="paper-btn btn-primary text-black" onClick={handleExitFullscreen}>Exit</button> */}
                 </div>
                 ): ([])
                 }

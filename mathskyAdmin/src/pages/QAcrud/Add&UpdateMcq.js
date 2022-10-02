@@ -23,15 +23,16 @@ const QAadd = () => {
   const [options, setOptions] = useState(["", "", "", ""]);
   const [ans, setAns] = useState(-1);
   const [uans, setUans] = useState("");
-
+   const [imageId,setImageId]=useState('')
   useEffect(() => {
-    console.log("the state---", location.state);
+    console.log("the update state items---", location.state);
 
     if (localStorage.getItem("Token")) {
       if (location.state.item) {
         setQues(location.state.data.ques);
         setUans(location.state.data.ans);
         setOptions(location.state.data.options);
+        setImageId(location.state.data.imageId)
       }
     } else {
       history("/");
@@ -60,6 +61,7 @@ const QAadd = () => {
       id: location.state.id,
       ans: ans,
       chapterNo: location.state.chapterName,
+      imageId:imageId
     };
     if(options.length!==0){
       addMCQApi(data).then((res) => {
@@ -91,6 +93,7 @@ const QAadd = () => {
       quesId: location.state.data.quesId,
       ans: uans,
       chapterNo: location.state.chapter,
+      imageId:imageId
     };
     console.log("the updated objs are", data);
 
@@ -109,6 +112,8 @@ const QAadd = () => {
         quesId: location.state.data.quesId,
         ans: uans,
         chapterNo: location.state.chapter,
+        imageId:imageId
+
       };
       console.log("the updated objs are", data);
 
@@ -270,9 +275,44 @@ const QAadd = () => {
                    
                      
                       </div> */}
+           
+              <br />
+     
+              <div style={{display:'flex', height:'40vh',width:'100%', justifyContent:'center'}}>
+                 <div style={{height:'100%',width:'40%'}}>
+         <label> Image Id *: </label>
+                 <input
+                    value={imageId}
+                    style={{ width: "80%", height: "10%", marginTop: "2%" }}
+                    type="textarea"
+                    onChange={(e) => {
+                      setImageId(e.target.value);
+                      // (e.target.value)
+                    }}
+                  />
+                 </div> 
+                 <div style={{height:'100%',width:'40%', backgroundColor:'#6439ff',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                 {/* 19BQc9dTcKHmyrXsiJghox_uw_lyW99Nc */}
+                 <img
+            src={`https://drive.google.com/uc?export=view&id=${imageId}`}
+            alt=""
+              onLoad={()=>{}
+                // setloading(false)
+              }
+              loading="lazy"
+              height={'80%'}
+              width={'90%'}
+style={{pointerEvents:'none'}}
+              onError={()=>{
+                console.log("err")
+                // setError(true)
+              }}
+
+            />
+                 </div> 
+              </div>
+              <br />
               </form>
-              <br />
-              <br />
               <center>
                 {" "}
                 <button

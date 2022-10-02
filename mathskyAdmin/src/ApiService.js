@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// let baseURL='http://localhost:8001/api/admin/'
+ let baseURL='http://localhost:8001/api/admin/'
 
-let baseURL='https://young-sierra-48453.herokuapp.com/api/admin/'
+//let baseURL='https://young-sierra-48453.herokuapp.com/api/admin/'
 export  const  authApi = (data)=>{
   console.log("the datas aer ", data)
   let url = baseURL + 'login'

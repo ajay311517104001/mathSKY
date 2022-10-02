@@ -57,6 +57,7 @@ function TestScreen() {
 
   const ResultScreenProps = (properties) => {
     console.log("the result screen props are", properties);
+
     setResultScreenProp(properties);
     setStage("s3");
   };
@@ -269,7 +270,7 @@ function TestScreen() {
     return (
       <HeroSection>
         <HeroVideo />
-        <Container>
+        <Container style={{backgroundColor:'#02203c'}}>
           {loading ? (
             <center>
               <ReactLoading type="bars" color="#fff" />

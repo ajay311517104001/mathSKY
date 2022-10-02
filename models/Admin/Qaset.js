@@ -7,6 +7,7 @@ const QAsetSchema = new mongoose.Schema(
     totalChapters: { type: String },
     StdName:{ type: String },
     chapters: { type: Array },
+    
   
   },
   { timestamps: true }
