@@ -138,6 +138,61 @@ router.post("/verify", async (req, res) => {
 	}
 });
 
+router.post("/unlock", async (req, res) => {
+	try {
+    console.log("the verify is", req.body)
+	    const {totalTestModules,productId}=req.body
+	
+   
+
+
+      const user = await User.findOne(
+        {
+            _id: mongoose.Types.ObjectId(req.body.id)
+        }
+      
+    );
+    if(user){
+	//update the default test list according to the test modules count
+	//return the user object (list of product id, list of test)
+
+
+	// [{
+	// 	productID:'productID',
+	// 	TestModulesList:[
+	// 	{	M1:false,
+	// 		M2:false,....
+		
+	// 	}
+	// 	]
+	// }]
+	let subscriptionList =[]
+	for(let i=1;i<totalTestModules+1;i++){
+		subscriptionList.push({
+			moduleId:'M'+i,
+			value:false,
+			score:-1,
+			timeOfCompletion:-1
+		})
+		}
+		// if the subcription list length > 0 just push the data into array 
+		//else create a new array and push just like below code
+		if(user.subscription.length>0){
+			user.subscription.push({productId:productId,subscriptionList:subscriptionList})
+			user.save()
+		}else{
+			user.subscription={productId:productId,subscriptionList:subscriptionList}
+			user.save()
+		}
+ 
+     console.log("the user after sub", user)
+      }
+			return res.status(200).json({ message: "unlocked successfully" });
+	} catch (error) {
+		res.status(500).json({ message: "Internal Server Error!" });
+		console.log(error);
+	}
+});
 // //UPDATE
 // router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //   try {
