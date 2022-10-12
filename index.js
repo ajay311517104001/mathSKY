@@ -55,7 +55,7 @@ const ARCHIVE_PATH =  `./mathsky.gzip`
 async function uploadFile(){
   try{
       const auth = new google.auth.GoogleAuth({
-          keyFile: './googleKey.json',
+          keyFile: './google-credentials.json',
           scopes: ['https://www.googleapis.com/auth/drive']
       })
 
