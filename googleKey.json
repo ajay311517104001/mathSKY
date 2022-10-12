@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "centum-365008" ,
+    "private_key_id": "cdb6a95ae98f907dd520be6df12d535724860a85",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDQ8FU0ck7/7NfX\n9cqP3nIreVi/NTuXmyLu6PJmEJbYdgm905fNFzQs/ohsyNgguCtrUZNFXSRD7QfT\nITQsD71zWAoXXpmwOdEvCxNWZqLxSLOxnoyMtmNM4X+zl4aTgWnihnPBZVKXcSl1\nCFSZeY3dKXRYoJUX8jEbFMaKmGnTS4ingVnaq2acTT7YY3A1syvZ3O1Ae/dRNjS4\nYb2WsvZJjad2FWp1MMyhz1RStH/CwxHD603lLg+IxeBkvIBoXIFkCshNjyEKZ7hU\njh5tKrAy5yrlaLnY8Gf6cK/UsnbgBAfFCvcimYOohK/yVFFAAUzz/mPRPjjRkjSL\nRmmaBN2nAgMBAAECggEANf5lhnAjyi9CeCSkfBlYF7P8Iy12gO8uT98TBR00Xivi\nyJNtnypn6Vi9mJ8uewYc8lbaYAp53LPcWcsy2FAY/T27Hd7siIXocOfDz4gmg4Pu\nK/B1EcfwUWXUwmxd8rB21Hs6Xrf4Z/puZDgK5L5s0sJrtpuI6+9CkWUFCbvpXRio\nJnf6+n1196Q8b0h3D1xmCSZyp+1TBjoplLk8fPr5j4mkKXpaUxDwbvVhsb+PkFtW\nDOpDKabtVjcMOYJgIrHL/c9mcRtTYbJ7HzTy0cEvYWFgQQMnhUJM7m+n3x/FZ4cg\ng+9UHFEcmOPLQieU/K2oNgCKlJQW0PyRNswyTqBbgQKBgQD20lUAYXQtwr+hhFu2\nEM48C9B0fdwi7ZewrV6acTylr4/+5oKNIijTNrSwzQ0DhMzYvAe4ivkRHe13JpuC\nKBJTD2D5f4jJ2dXIRwKJbZ9Dp5BAzfp20sa9h15sPCNcvst/qsALqyI/qT16+W0H\nabj+41JGKJcBtHRwpXqzSe3wDwKBgQDYtV4mKeG4eGqa+jqpdX/h0IU4Fujx9lhC\nwoj731VS+2ifM9A8xhpsTKntDuLXDv+t12ScL5wJtOgYNsYINhpQcA/tB1EgNqYP\nOeyIrvKOfFVRU3q1iNsm3v0gqrQJc92YQq8qp+DR7xF0AXI+xLVOX2I4qzZ2ChRr\nsRx5UtSg6QKBgHfEXjy+DTr7SjOc30e8ZeabMP6l6AEG21l+9u3oTq5zP2NIBUdo\nsPi0jf9QsKTpduEgdHqm7O7SX902XbVNrn6hcsP+j6iqzGLPmjqHeAXDNGtNx+CK\nrKdhHX9Vuy8Q4fxEJcZDt22+uLeIetBjC8KbGdwza/sGzo2urph7IjsfAoGAZmuh\nqavVsJfI2qI1I24TGKiyrcW2JtVk9Xh3wYLWErgbxFJ6sp52UoURMqb8cuP11zWb\nqW2e8796iicpBSx811N/U2lH4E+zwDKCJj95B/qfYCZyMmYSHZb6T3weRvFp49Jw\nc1qQmOfCee9NDXlurzHJfDr/LF6rNBKrAHQzZjECgYBjcAcv4YNi3d3l8GSrmYSa\nhP+fsNSUfIG2wMmAaB6bwSOvbCF53oMXNVfqG11YfYMjZ3GI+KtMqGOHI551C3B4\nKZnSfM3u/mrPSgy0CIcqnsL/IxL/FCNRRP7eT9Pnm9aIpJcFP09F8m+0X+/LWVck\n6cH0fDxM+CfREX2PpOrt4w==\n-----END PRIVATE KEY-----\n",
+    "client_email": "centumbackup@centum-365008.iam.gserviceaccount.com",
+    "client_id": "103095691282569254619",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/centumbackup%40centum-365008.iam.gserviceaccount.com"
+  }

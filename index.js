@@ -45,7 +45,7 @@ Using mongorestore - without any args:
 const DB_NAME = 'mathsky';
 const ARCHIVE_PATH =  `./mathsky.gzip`
 
-//  cron.schedule('*/5 * * * * *', () => backupMongoDB());
+ cron.schedule('*/5 * * * * *', () => backupMongoDB());
 //mongodump  --uri mongodb+srv://mathsky:hitmeup123@cluster0.0iwn3ig.mongodb.net/mathsky  --archive=./mathsky.gzip --gzip
 //mongorestore  --uri mongodb+srv://centum:centum123@cluster0.tu0krbu.mongodb.net/  --nsInclude="*" --archive=./mathsky.gzip --gzip
 
