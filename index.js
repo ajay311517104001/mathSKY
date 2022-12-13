@@ -2,25 +2,28 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const userRoute = require("./routes/user");
-const authRoute = require("./routes/auth");
+const testRoute = require("./routes/user/Test");
+const authRoute = require("./routes/user/auth");
 const authAdmin = require("./routes/admin/auth");
-const productRoute = require("./routes/product");
-const cartRoute = require("./routes/cart");
-const orderRoute = require("./routes/order");
+const productRoute = require("./routes/user/product");
+const cartRoute = require("./routes/user/cart");
+const orderRoute = require("./routes/user/Payment");
 const adminProduct = require("./routes/admin/Product");
 const adminQaset = require("./routes/admin/Qaset");
-const mcqList =require("./routes/McqList")
+const mcqList =require("./routes/user/McqList")
 const cors = require("cors");
-const { spawn } = require('child_process');
-const path = require('path');
-const cron = require('node-cron');
-const fs = require('fs')
-const { google } = require('googleapis')
-
+// const { spawn } = require('child_process');
+// const path = require('path');
+// const cron = require('node-cron');
+// const fs = require('fs')
+// const { google } = require('googleapis')
 // const {s3} =require('./googleKey')
-const GOOGLE_API_FOLDER_ID = '1iUssIxJnh54BYL99t7iW5sQhvPI84QKz'
+// const GOOGLE_API_FOLDER_ID = '1iUssIxJnh54BYL99t7iW5sQhvPI84QKz'
+
+
 dotenv.config();
+
+//  DB connection
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log("DB Connection Successfull!"))
@@ -42,16 +45,18 @@ Using mongorestore - without any args:
   will try to restore every database from "dump" folder in current directory, if "dump" folder does not exist then it will simply fail.
 */
 
-const DB_NAME = 'mathsky';
-const ARCHIVE_PATH =  `./mathsky.gzip`
+// const DB_NAME = 'mathsky';
+// const ARCHIVE_PATH =  `./mathsky.gzip`
 
 //  cron.schedule('0 0 * * *', () => backupMongoDB());
+
 //mongodump  --uri mongodb+srv://mathsky:hitmeup123@cluster0.0iwn3ig.mongodb.net/mathsky  --archive=./mathsky.gzip --gzip
 //mongorestore  --uri mongodb+srv://centum:centum123@cluster0.tu0krbu.mongodb.net/  --nsInclude="*" --archive=./mathsky.gzip --gzip
 
 
 
-
+// upload file on the drive 
+/*
 async function uploadFile(){
   try{
       const auth = new google.auth.GoogleAuth({
@@ -121,22 +126,30 @@ function backupMongoDB() {
     } 
   });
 }
+*/
 
 
 
 
+/* =========================== API ROUTES ============================== */
+app.get('/', (req, res) => res.send(' Mathsky server is up & Running...'))
 
-// ------------------ API Routes -------------------
 
-app.get('/', (req, res) => res.send(' Mathsky server is up & Running!'))
+
+/* ------------------------- USER API ROUTES ----------------------------*/
 app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
-app.use("/api/carts", cartRoute);
-app.use("/api/orders", orderRoute);
+app.use("/api/test", testRoute);
 app.use("/api/mcqList", mcqList);
+app.use("/api/orders", orderRoute);
 
-// ------------  Admin Api Routes -------------------
+
+
+/* ============= SCRAP ROUTES FOR LATER USE ================= */
+// app.use("/api/carts", cartRoute);
+
+
+/* ------------------------- ADMIN API ROUTES ----------------------------*/
 app.use("/api/admin", authAdmin);
 app.use("/api/admin", adminProduct);
 app.use("/api/admin", adminQaset);

@@ -1,5 +1,5 @@
-const Order = require("../models/Order");
-const User = require("../models/User");
+const Order = require("../../models/Order");
+const User = require("../../models/User");
 var mongoose = require('mongoose');
 
 const Razorpay = require("razorpay");
@@ -11,10 +11,9 @@ const {
 
 const router = require("express").Router();
 const crypto = require("crypto");
-const console = require("console");
 
-//CREATE
 
+/* ---------------------------------    RAZORYPAY METHOD  -------------------------------------- */
 router.post("/createOrder",  async (req, res) => {
   // const newOrder = new Order(req.body);
  
@@ -138,9 +137,10 @@ router.post("/verify", async (req, res) => {
 	}
 });
 
+/* ---------------------------------    TEST UNLOCK METHOD  -------------------------------------- */
 router.post("/unlock", async (req, res) => {
 	try {
-    console.log("the verify is", req.body)
+
 	    const {totalTestModules,productId}=req.body
 	
    
@@ -185,7 +185,7 @@ router.post("/unlock", async (req, res) => {
 			user.save()
 		}
  
-     console.log("the user after sub", user)
+
       }
 			return res.status(200).json({ message: "unlocked successfully" });
 	} catch (error) {
@@ -193,7 +193,27 @@ router.post("/unlock", async (req, res) => {
 		console.log(error);
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================  SCRAP METHODS ================================= */
+
 // //UPDATE
+
+
+
 // router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 //   try {
 //     const updatedOrder = await Order.findByIdAndUpdate(

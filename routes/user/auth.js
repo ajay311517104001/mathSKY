@@ -1,14 +1,23 @@
 const router = require("express").Router();
-const User = require("../models/User");
+const User = require("../../models/User");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
-
 const clientId = new OAuth2Client(
   "291717498611-daceb28n13btmnk0d6q7onv1mqalplpd.apps.googleusercontent.com"
 );
-//REGISTER
-router.post("/register", async (req, res) => {
+
+/* ========================================= INFORMATION LOG =============================================
+
+ * REGISTER & LOGIN DISABLED
+ * GOOGLE SIGN IN ALONE ENABLED
+
+ =========================================================================================================
+*/
+
+
+// ------------  REGISTER -------------------
+/*router.post("/register", async (req, res) => {
   console.log("the res is", req.body);
   const newUser = new User({
     username: req.body.username,
@@ -36,24 +45,21 @@ router.post("/register", async (req, res) => {
         { expiresIn: "3d" }
       );
 
-      res
-        .status(200)
-        .json({
-          username: savedUser.username,
-          accessToken,
-          userId: savedUser._id,
-        });
+      res.status(200).json({
+        username: savedUser.username,
+        accessToken,
+        userId: savedUser._id,
+      });
     } catch (err) {
       res.status(500).json(err);
     }
   } else {
     res.status(409).json("User Already exists");
   }
-});
+});*/
 
-//LOGIN
-
-router.post("/login", async (req, res) => {
+// ------------  LOGIN -------------------
+/*router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({
       email: req.body.email,
@@ -91,11 +97,12 @@ router.post("/login", async (req, res) => {
     res.status(500).json(err);
   }
 });
+*/
 
+// ------------  GOOGLE LOGIN -------------------
 router.post("/GoogleLogin", async (req, res) => {
-  console.log("the res is", req.body);
+  // console.log("the res is", req.body);
   const { token } = req.body;
-
   try {
     if (req.body) {
       clientId
@@ -109,9 +116,7 @@ router.post("/GoogleLogin", async (req, res) => {
           if (email_verified) {
             User.findOne({ email: email }).exec(async (err, user) => {
               if (err) {
-                return res
-                  .status(400)
-                  .json({ message: "Something went Wrong" });
+                return res.status(400).json({ message: "Something went Wrong" });
               } else {
                 if (user) {
                   const accessToken = jwt.sign(
@@ -121,14 +126,12 @@ router.post("/GoogleLogin", async (req, res) => {
                     process.env.JWT_SEC,
                     { expiresIn: "3d" }
                   );
-                  console.log("the access token", accessToken);
+                //  console.log("the access token", accessToken);
                   const { password, ...others } = user._doc;
                   return res
                     .status(200)
                     .json({ ...others, accessToken, userId: user._id });
                 } else {
-
-
                   const newUser = new User({
                     username: name,
                     email: email,
@@ -146,21 +149,16 @@ router.post("/GoogleLogin", async (req, res) => {
                     process.env.JWT_SEC,
                     { expiresIn: "3d" }
                   );
-            
 
-                  return res
-                    .status(200)
-                    .json({
-                      username: savedUser.username,
-                      accessToken,
-                      userId: savedUser._id,
-                    });
+                  return res.status(200).json({
+                    username: savedUser.username,
+                    accessToken,
+                    userId: savedUser._id,
+                  });
                 }
               }
             });
           }
-
-       
         });
     } else {
       res.status(409).json("something went wrong");
